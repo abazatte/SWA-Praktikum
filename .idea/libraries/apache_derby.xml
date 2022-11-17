@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="apache.derby" type="repository">
+    <properties maven-id="org.apache.derby:derby:10.16.1.1">
+      <exclude>
+        <dependency maven-id="org.apache.derby:derby" />
+        <dependency maven-id="org.apache.derby:derbyshared" />
+      </exclude>
+    </properties>
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

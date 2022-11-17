@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Nov 01 19:41:08 CET 2022:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): Instanz a816c00e-0184-347f-4ba4-00001f495f48
+für Datenbankverzeichnis D:\Hochschule\5Sem\SWA\swa-praktikum\1Prak\SimpleShoppingApp\derbyDBv2 mit Class Loader jdk.internal.loader.ClassLoaders$AppClassLoader@4d7e1886
+Geladen aus file:/C:/Users/GBT%20B450M-S2H/Documents/docs/derby/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=19.0.1+10-21
+user.dir=D:\Hochschule\5Sem\SWA\swa-praktikum\1Prak\SimpleShoppingApp
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
