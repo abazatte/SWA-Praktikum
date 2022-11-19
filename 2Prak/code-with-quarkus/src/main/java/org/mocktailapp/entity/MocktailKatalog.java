@@ -1,15 +1,17 @@
 package org.mocktailapp.entity;
 
+import org.boundary.MocktailDTO;
+
 import java.util.Collection;
 
 public interface MocktailKatalog {
-    void addMocktail(Mocktail mocktail);
+    void addMocktail(MocktailDTO mocktail);
     void editMocktail(String oldname, String newName, String beschreibung);
     void addZutat(String zutat, int id);
     void deleteZutat(String zutat, int id);
     void deleteMocktail(String name);
     void deleteMocktail(int id);
-    Mocktail getMocktail(int id);
+    MocktailDTO getMocktail(int id);
     int getMocktailID(String name);
-    Collection<Mocktail> getMocktails();
+    Collection<MocktailDTO> getMocktails();
 }

@@ -3,11 +3,11 @@ package org.mocktailapp.control;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.mocktailapp.entity.Mocktail;
+import org.boundary.MocktailDTO;
 
 public interface GetMocktail {
-    Mocktail getMocktail(int id);
-    Collection<Mocktail> getMocktails();
+    MocktailDTO getMocktail(int id);
+    Collection<MocktailDTO> getMocktails();
     int getMocktailID(String name);
-    Optional<Mocktail> findById(int id);
+    Optional<MocktailDTO> findById(int id);
 }

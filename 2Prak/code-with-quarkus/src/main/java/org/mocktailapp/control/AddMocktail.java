@@ -1,8 +1,8 @@
 package org.mocktailapp.control;
 
-import org.mocktailapp.entity.Mocktail;
+import org.boundary.MocktailDTO;
 
 public interface AddMocktail {
-   void addMocktail(Mocktail mocktail);
+   void addMocktail(MocktailDTO mocktail);
  
 }

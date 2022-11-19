@@ -16,12 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.mocktailapp.control.AddMocktail;
-import org.mocktailapp.control.DeleteMocktail;
-import org.mocktailapp.control.EditMocktail;
-import org.mocktailapp.control.GetMocktail;
-import org.mocktailapp.control.NutzerIn;
-import org.mocktailapp.entity.Mocktail;
+import org.boundary.MocktailDTO;
+import org.jboss.logging.Logger;
+import org.mocktailapp.control.*;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -35,14 +33,16 @@ public class MocktailResource {
     DeleteMocktail deleteNutzerIn = new NutzerIn();
     GetMocktail getNutzerIn = new NutzerIn();
 
+    private static final Logger LOG = Logger.getLogger(MocktailResource.class);
+
     @PostConstruct
     public void init(){
-        Mocktail mangoMule = new Mocktail("Mango Mule mong", "Lecker.");
+        MocktailDTO mangoMule = new MocktailDTO("Mango Mule mong", "Lecker.");
         mangoMule.addZutaten("4 Gurken Scheiben");
         mangoMule.addZutaten("1 Loeffel Honigsirup");
         mangoMule.addZutaten("1/2 Loeffel Mangopuree");
         this.addNutzerIn.addMocktail(mangoMule);
-        Mocktail mangoSule = new Mocktail("Mango Sule song", "Nicht so Lecker.");
+        MocktailDTO mangoSule = new MocktailDTO("Mango Sule song", "Nicht so Lecker.");
         mangoSule.addZutaten("4 Gurken Scheiben");
         mangoSule.addZutaten("1 Loeffel Honigsirup");
         mangoSule.addZutaten("1/2 Loeffel Mangopuree");
@@ -50,7 +50,8 @@ public class MocktailResource {
     }
 
     @GET
-    public Collection<Mocktail> mocktailList() {        
+    public Collection<MocktailDTO> mocktailList() {
+        LOG.info("getMocktails aufgerufen\n");
         return this.getNutzerIn.getMocktails();
     }
 
@@ -58,7 +59,7 @@ public class MocktailResource {
     @Path("/{id}")
     public Response geMocktail(int id){
 
-        Optional<Mocktail> optMocktail = this.getNutzerIn.findById(id);
+        Optional<MocktailDTO> optMocktail = this.getNutzerIn.findById(id);
         if(optMocktail.isPresent()){
             return Response.ok(optMocktail.get()).build();
         }
@@ -67,14 +68,14 @@ public class MocktailResource {
 
     @POST
     @Path("/post")
-    public Response newMocktail(Mocktail mocktail){
+    public Response newMocktail(MocktailDTO mocktail){
         this.addNutzerIn.addMocktail(mocktail);
         return Response.status(Status.CREATED).entity(mocktail).build();
     }
 
     @DELETE @Path("/{id}")
     public Response deleteMocktail(int id){
-        Optional<Mocktail> optMocktail = this.getNutzerIn.findById(id);
+        Optional<MocktailDTO> optMocktail = this.getNutzerIn.findById(id);
         if(optMocktail.isPresent()){
             //System.out.println("delete Object: " + optMocktail.get().getId());
             this.deleteNutzerIn.deleteMocktail(id);
@@ -93,7 +94,7 @@ public class MocktailResource {
 
     @PATCH @Path("/{id}")
     public Response addZutat(@QueryParam("zutat") String zutat,@PathParam("id") int id){
-        Optional<Mocktail> optMocktail = this.getNutzerIn.findById(id);
+        Optional<MocktailDTO> optMocktail = this.getNutzerIn.findById(id);
         if(!optMocktail.isPresent()){
             return Response.noContent().build();
         }
@@ -103,7 +104,7 @@ public class MocktailResource {
     
     @PATCH @Path("/deleteZutat/{id}")
     public Response deleteZutat(@QueryParam("zutat") String zutat, @PathParam("id") int id){
-        Optional<Mocktail> optMocktail = this.getNutzerIn.findById(id);
+        Optional<MocktailDTO> optMocktail = this.getNutzerIn.findById(id);
         if(!optMocktail.isPresent()){
             return Response.noContent().build();
         }

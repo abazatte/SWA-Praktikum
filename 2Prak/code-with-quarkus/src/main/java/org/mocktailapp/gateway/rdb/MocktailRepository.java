@@ -1,5 +1,6 @@
 package org.mocktailapp.gateway.rdb;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,11 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.boundary.MocktailDTO;
 import org.mocktailapp.entity.Mocktail;
 import org.mocktailapp.entity.MocktailKatalog;
 
 @ApplicationScoped
-public class MocktailRepository implements MocktailKatalog{
+public class MocktailRepository implements MocktailKatalog {
     private final Map<Integer, Mocktail> mocktailMap = new ConcurrentHashMap<>();
     private static AtomicInteger idCounter = new AtomicInteger();
     private static MocktailRepository dbConnInstance = null;
@@ -28,10 +30,10 @@ public class MocktailRepository implements MocktailKatalog{
     }
 
     @Override
-    public void addMocktail(Mocktail mocktail) {
+    public void addMocktail(MocktailDTO mocktailDTO) {
         // TODO Auto-generated method stub
         Integer id = createID();
-        mocktailMap.put(id,new Mocktail(mocktail.getName(), mocktail.getAnleitung(), mocktail.getZutatenList(), id));
+        mocktailMap.put(id,new Mocktail(mocktailDTO));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class MocktailRepository implements MocktailKatalog{
                 idVonOld = entry.getValue().getId();
             }
         }
-        Mocktail oldMocktail = getMocktail(idVonOld);
+        MocktailDTO oldMocktail = getMocktail(idVonOld);
         Mocktail newMocktail = new Mocktail(newName,beschreibung,oldMocktail.getZutatenList(),idVonOld);
         this.deleteMocktail(idVonOld);
         mocktailMap.put(idVonOld, newMocktail);
@@ -74,8 +76,8 @@ public class MocktailRepository implements MocktailKatalog{
     }
 
     @Override
-    public Mocktail getMocktail(int id) {
-        return mocktailMap.get(id);
+    public MocktailDTO getMocktail(int id) {
+        return new MocktailDTO(mocktailMap.get(id));
     }
 
     @Override
@@ -92,7 +94,11 @@ public class MocktailRepository implements MocktailKatalog{
     }
 
     @Override
-    public Collection<Mocktail> getMocktails() {
-        return mocktailMap.values();
+    public Collection<MocktailDTO> getMocktails() {
+        Collection<MocktailDTO> dtos = new ArrayList<>();
+        for (Mocktail m : mocktailMap.values()) {
+            dtos.add(new MocktailDTO(m));
+        }
+        return dtos;
     }
 }

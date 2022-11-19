@@ -5,27 +5,28 @@ import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.mocktailapp.entity.Mocktail;
+import org.boundary.MocktailDTO;
+import org.mocktailapp.control.*;
 
 @ApplicationScoped
-public class NutzerIn implements AddMocktail, DeleteMocktail, EditMocktail, GetMocktail{
+public class NutzerIn implements AddMocktail, DeleteMocktail, EditMocktail, GetMocktail {
     AddMocktailService addMocktailService = new AddMocktailService();
     DeleteMocktailService deleteMocktailService = new DeleteMocktailService();
     EditMocktailService editMocktailService = new EditMocktailService();
     GetMocktailService getMocktailService = new GetMocktailService(); 
 
     @Override
-    public Optional<Mocktail> findById(int id){
+    public Optional<MocktailDTO> findById(int id){
         return Optional.ofNullable(this.getMocktail(id));
     }
 
     @Override
-    public Mocktail getMocktail(int id) {
+    public MocktailDTO getMocktail(int id) {
         return this.getMocktailService.getMocktail(id);
     }
 
     @Override
-    public Collection<Mocktail> getMocktails() {
+    public Collection<MocktailDTO> getMocktails() {
         return this.getMocktailService.getMocktails();
     }
 
@@ -60,7 +61,7 @@ public class NutzerIn implements AddMocktail, DeleteMocktail, EditMocktail, GetM
     }
 
     @Override
-    public void addMocktail(Mocktail mocktail) {
+    public void addMocktail(MocktailDTO mocktail) {
         addMocktailService.addMocktail(mocktail);
     }
 }

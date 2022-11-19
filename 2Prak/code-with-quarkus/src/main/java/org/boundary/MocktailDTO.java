@@ -1,41 +1,43 @@
-package org.mocktailapp.entity;
+package org.boundary;
 
-import org.boundary.MocktailDTO;
+
+import org.mocktailapp.entity.Mocktail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mocktail {
+public class MocktailDTO {
     private Integer id;
     private String name;
     private List<String> zutatenList;
     private String anleitung;
 
-    public Mocktail(){
-
+    public MocktailDTO(){
+        
     }
 
-    public Mocktail(MocktailDTO dto){
-        this.id = dto.getId();
-        this.name = dto.getName();
-        this.zutatenList = dto.getZutatenList();
-        this.anleitung = dto.getAnleitung();
+    public MocktailDTO(Mocktail mocktail){
+        this.id = mocktail.getId();
+        this.name = mocktail.getName();
+        this.zutatenList = mocktail.getZutatenList();
+        this.anleitung = mocktail.getAnleitung();
     }
-    public Mocktail(String name, String anleitung){
+
+    public MocktailDTO(String name, String anleitung){
         this.id = 0;
         this.name = name;
         zutatenList = new ArrayList<>();
         this.anleitung = anleitung;
     }
 
-    public Mocktail(String name, String anleitung, List<String> zutatenList, Integer id){
+    public MocktailDTO(String name, String anleitung, List<String> zutatenList, Integer id){
         this.id = id;
         this.name = name;
         this.zutatenList = zutatenList;
         this.anleitung = anleitung;
     }
 
-    public Mocktail(String name, String anleitung, List<String> zutatenList){
+    public MocktailDTO(String name, String anleitung, List<String> zutatenList){
         this.id = 0;
         this.name = name;
         this.zutatenList = zutatenList;
@@ -56,14 +58,14 @@ public class Mocktail {
     //settet die anleitungs
     public void setAnleitung(String anleitung){
         this.anleitung = anleitung;
-
+        
     }
     public void removeZutat(String name){
-        for(int i = 0; i < zutatenList.size(); i++){
+       for(int i = 0; i < zutatenList.size(); i++){
             if(zutatenList.get(i).equals(name)){
                 zutatenList.remove(i);
             }
-        }
+       }   
     }
 
     public void setZutatenList(List<String> zutatenList){
