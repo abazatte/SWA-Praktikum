@@ -86,6 +86,7 @@ public class MocktailResource {
         if(optMocktail.isPresent()){
             return Response.ok(optMocktail.get()).build();
         }
+        LOG.info("getMocktailByID aufgerufen\n");
         return Response.noContent().build();
     }
 
@@ -99,6 +100,7 @@ public class MocktailResource {
     public Response newMocktail(MocktailDTO mocktail){
         counter++;
         this.addNutzerIn.addMocktail(mocktail);
+        LOG.info("postMocktail aufgerufen\n");
         return Response.status(Status.CREATED).entity(mocktail).build();
     }
 
@@ -116,6 +118,7 @@ public class MocktailResource {
             this.deleteNutzerIn.deleteMocktail(id);
             return Response.ok().build();
         }
+        LOG.info("deleteMocktaitbyID aufgerufen\n");
         return Response.noContent().build();
     }
  
@@ -130,6 +133,7 @@ public class MocktailResource {
     public Response editMocktail(@QueryParam("oldname") String oldname,@QueryParam("newname") String newname,@QueryParam("beschreibung") String beschreibung){
         counter++;
         this.editNutzerIn.editMocktail(oldname, newname, beschreibung);
+        LOG.info("editMocktails aufgerufen\n");
         return Response.ok(this.getNutzerIn.getMocktail(this.getNutzerIn.getMocktailID(newname))).build();
     }
 
@@ -146,6 +150,7 @@ public class MocktailResource {
             return Response.noContent().build();
         }
         this.editNutzerIn.addZutat(zutat, id);
+        LOG.info("addZutat aufgerufen\n");
         return Response.ok(this.getNutzerIn.getMocktail(id)).build();
     }
     
@@ -162,6 +167,7 @@ public class MocktailResource {
             return Response.noContent().build();
         }
         this.editNutzerIn.deleteZutat(zutat, id);
+        LOG.info("deleteZutatByID aufgerufen\n");
         return Response.ok(this.getNutzerIn.getMocktail(id)).build();
     }
 
