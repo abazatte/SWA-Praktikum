@@ -44,6 +44,7 @@ public class CocktailResource {
     @PostConstruct
     @Timed(name = "initTimer", description = "Wie lange braucht die init-Methode", unit = MetricUnits.MILLISECONDS)
     public void init(){
+        LOG.info("init aufgerufen");
         counter++;
         CocktailDTO test = new CocktailDTO();
         test.id = 0;
@@ -53,6 +54,7 @@ public class CocktailResource {
         testArray.add("Gift");
         test.zutatenList = testArray;
         this.cocktailNutzerIn.addCocktail(test);
+        LOG.info("init beendet");
     }
 
     @GET
@@ -63,7 +65,8 @@ public class CocktailResource {
     @Timed(name = "getAllTimer", description = "Wie lange braucht die cocktailList-Methode", unit = MetricUnits.MILLISECONDS)
     public Collection<CocktailDTO> cocktailList(){
         counter++;
-        LOG.info("getCocktails aufgerufen\n");
+        LOG.info("getCocktails aufgerufen");
+        LOG.info("getCocktails beendet");
         return this.cocktailNutzerIn.getCocktails();
     }
 
@@ -75,11 +78,14 @@ public class CocktailResource {
     @Counted(name = "getByIDCount", description = "Wie oft wurde die getCocktail-Methode ausgefuehrt?")
     @Timed(name = "getByIDTimer", description = "Wie lange braucht die getCocktail-Methode", unit = MetricUnits.MILLISECONDS)
     public Response getCocktail(@PathParam("id") int id){
+        LOG.info("getCocktail aufgerufen");
         counter++;
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
+            LOG.info("getCocktail Cocktail gefunden");
             return Response.ok(optCocktailDTO.get()).build();
         }
+        LOG.info("getCocktail Cocktail nicht gefunden");
         return Response.noContent().build();
     }
 
@@ -91,7 +97,9 @@ public class CocktailResource {
     @Counted(name = "postCount", description = "Wie oft wurde die newCocktail-Methode ausgefuehrt?")
     @Timed(name = "postTimer", description = "Wie lange braucht die newCocktail-Methode", unit = MetricUnits.MILLISECONDS)
     public Response newCocktail(CocktailDTO cocktailDTO){
+        LOG.info("newCocktail aufgerufen");
         counter++;
+        LOG.info("newCocktail neues Cocktail erstellt");
         return Response.ok(this.cocktailNutzerIn.addCocktail(cocktailDTO)).build();
     }
 
@@ -103,12 +111,15 @@ public class CocktailResource {
     @Counted(name = "deleteCount", description = "Wie oft wurde die deleteCocktail-Methode ausgefuehrt?")
     @Timed(name = "deleteTimer", description = "Wie lange braucht die deleteCocktail-Methode", unit = MetricUnits.MILLISECONDS)
     public Response deleteCocktail(@PathParam("id") int id){
+        LOG.info("deleteCocktail aufgerufen");
         counter++;
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
+            LOG.info("deleteCocktail Cocktail gefunden");
             this.cocktailNutzerIn.deleteCocktail(id);
             return Response.ok().build();
         }
+        LOG.info("deleteCocktail Cocktail nicht gefunden");
         return Response.noContent().build();
     }
 
@@ -120,6 +131,7 @@ public class CocktailResource {
     @Counted(name = "putCount", description = "Wie oft wurde die editCocktail-Methode ausgefuehrt?")
     @Timed(name = "putTimer", description = "Wie lange braucht die editCocktail-Methode", unit = MetricUnits.MILLISECONDS)
     public Response editCocktail(@QueryParam("oldname") String oldname, @QueryParam("newname") String newname, @QueryParam("beschreibung") String beschreibung){
+        LOG.info("editCocktail aufgerufen");
         counter++;
         return Response.ok(this.cocktailNutzerIn.editCocktail(oldname, newname, beschreibung)).build();
     }
@@ -132,11 +144,14 @@ public class CocktailResource {
     @Counted(name = "patchAddCount", description = "Wie oft wurde die addZutat-Methode ausgefuehrt?")
     @Timed(name = "patchAddTimer", description = "Wie lange braucht die addZutat-Methode", unit = MetricUnits.MILLISECONDS)
     public Response addZutat(@QueryParam("zutat") String zutat, @PathParam("id") int id){
+        LOG.info("addZutat aufgerufen");
         counter++;
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
+            LOG.info("addZutat Cocktail gefunden");
             return Response.ok(this.cocktailNutzerIn.addZutat(zutat, id)).build();
         }
+        LOG.info("addZutat Cocktail nicht gefunden");
         return Response.noContent().build();
     }
 
@@ -148,11 +163,14 @@ public class CocktailResource {
     @Counted(name = "patchDeleteCount", description = "Wie oft wurde die deleteZutat-Methode ausgefuehrt?")
     @Timed(name = "patchDeleteTimer", description = "Wie lange braucht die deleteZutat-Methode?", unit = MetricUnits.MILLISECONDS)
     public Response deleteZutat(@QueryParam("zutat") String zutat, @PathParam("id") int id){
+        LOG.info("deleteZutat aufgerufen");
         counter++;
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
+            LOG.info("deleteZutat Cocktail gefunden");
             return Response.ok(this.cocktailNutzerIn.deleteZutat(zutat, id)).build();
         }
+        LOG.info("deleteZutat Cocktail nicht gefunden");
         return Response.noContent().build();
     }
 
