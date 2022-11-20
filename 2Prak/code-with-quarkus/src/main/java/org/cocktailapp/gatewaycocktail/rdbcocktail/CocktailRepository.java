@@ -31,6 +31,7 @@ public class CocktailRepository implements CocktailKatalog {
     @Override
     public CocktailDTO addCocktail(CocktailDTO cocktailDTO) {
         int id = createID();
+        cocktailDTO.id = id;
         cocktailMap.put(id, new Cocktail(cocktailDTO));
         return getCocktail(id);
     }
