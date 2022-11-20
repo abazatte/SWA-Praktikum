@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.boundary.MocktailDTO;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
@@ -62,6 +64,8 @@ public class MocktailResource {
     }
 
     @GET
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Gets all Mocktails", description = "Lists all available mocktails")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -75,6 +79,8 @@ public class MocktailResource {
 
     @GET
     @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Gets Mocktail per ID", description = "Lists the Mocktail with same ID as typed")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -92,6 +98,8 @@ public class MocktailResource {
 
     @POST
     @Path("/post")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Post a MocktailDTO", description = "Creates new Mocktail")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -104,7 +112,10 @@ public class MocktailResource {
         return Response.status(Status.CREATED).entity(mocktail).build();
     }
 
-    @DELETE @Path("/{id}")
+    @DELETE
+    @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Delete Mocktail", description = "Delete Mocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -125,6 +136,8 @@ public class MocktailResource {
 
     @PUT 
     @Path("/put")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Edit Mocktail", description = "Edit Mocktail with new name, beschreibung")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -137,7 +150,10 @@ public class MocktailResource {
         return Response.ok(this.getNutzerIn.getMocktail(this.getNutzerIn.getMocktailID(newname))).build();
     }
 
-    @PATCH @Path("/{id}")
+    @PATCH
+    @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Add Zutat", description = "Added new Zutat to given Mocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -154,7 +170,10 @@ public class MocktailResource {
         return Response.ok(this.getNutzerIn.getMocktail(id)).build();
     }
     
-    @PATCH @Path("/deleteZutat/{id}")
+    @PATCH
+    @Path("/deleteZutat/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Delete 1 Zutat", description = "Delete Zutat from Mocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
@@ -175,7 +194,7 @@ public class MocktailResource {
     public int actionsPerformed() {
         return counter;
     }
-/* 
+/*
     @POST
     @Path("/post")
     //public void postMocktail(String anleitung, String name, ArrayList<String> zutatenList){

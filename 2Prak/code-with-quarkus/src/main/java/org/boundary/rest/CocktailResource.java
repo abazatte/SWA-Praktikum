@@ -12,6 +12,11 @@ import javax.ws.rs.core.Response;
 import org.cocktailapp.controlcocktail.CocktailNutzerIn;
 
 /** Aufgabe 3.2 */
+import org.cocktailapp.controlcocktail.CocktailService;
+import org.cocktailapp.entitycocktail.Cocktail;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -27,10 +32,7 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.jboss.logging.Logger;
 import org.mocktailapp.control.NutzerIn;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ApplicationScoped
 @Path("/cocktail")
@@ -58,20 +60,28 @@ public class CocktailResource {
     }
 
     @GET
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Gets all Cocktails", description = "Lists all available cocktails")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
     @Counted(name = "getAllCount", description = "Wie oft wurde die cocktailList-Methode ausgefuehrt?")
     @Timed(name = "getAllTimer", description = "Wie lange braucht die cocktailList-Methode", unit = MetricUnits.MILLISECONDS)
     public Collection<CocktailDTO> cocktailList(){
-        counter++;
-        LOG.info("getCocktails aufgerufen");
-        LOG.info("getCocktails beendet");
+        LOG.info("getCocktails aufgerufen\n");
+        if (new Random().nextBoolean()) {
+            LOG.error("cocktailResourceFailed absichtlich");
+            throw new RuntimeException("Resource failure.");
+        }
         return this.cocktailNutzerIn.getCocktails();
     }
 
     @GET
     @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Fallback(fallbackMethod = "fallbackGetCocktail")
+    @Timeout(250)
+    //timeout ist dafür da, das bei überladenen servern lieber abgebrochen wird anstatt die server weiter zu belasten
     @Operation(summary = "Gets Cocktail per ID", description = "Lists the Cocktail with same ID as typed")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
@@ -80,31 +90,69 @@ public class CocktailResource {
     public Response getCocktail(@PathParam("id") int id){
         LOG.info("getCocktail aufgerufen");
         counter++;
+        long started = System.currentTimeMillis();
+
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
-            LOG.info("getCocktail Cocktail gefunden");
-            return Response.ok(optCocktailDTO.get()).build();
+
+            //random delay ausprobieren
+            try {
+                randomDelay();
+                LOG.infof("CoffeeResource#recommendations() invocation  returning successfully");
+                return Response.ok(optCocktailDTO.get()).build();
+            } catch (InterruptedException e) {
+                LOG.errorf("CoffeeResource#recommendations() invocation  timed out after %d ms", System.currentTimeMillis() - started);
+                return Response.noContent().build();
+            }
         }
-        LOG.info("getCocktail Cocktail nicht gefunden");
+        LOG.errorf("Cocktail under id:{ " + id + "} not found");
         return Response.noContent().build();
+    }
+
+    private void randomDelay() throws InterruptedException {
+        Thread.sleep(new Random().nextInt(500));
+    }
+
+    public Response fallbackGetCocktail(int id){
+        CocktailDTO fallbackDTO = new CocktailDTO();
+        fallbackDTO.id = 0;
+        fallbackDTO.name = "fallback Cocktail";
+        fallbackDTO.anleitung = "ganz einfach";
+        fallbackDTO.zutatenList = new ArrayList<>();
+        fallbackDTO.zutatenList.add("2 shots of Vodka");
+        return Response.ok(fallbackDTO).build();
     }
 
     @POST
     @Path("/post")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Post a CocktailDTO", description = "Creates new Cocktail")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
     @Counted(name = "postCount", description = "Wie oft wurde die newCocktail-Methode ausgefuehrt?")
     @Timed(name = "postTimer", description = "Wie lange braucht die newCocktail-Methode", unit = MetricUnits.MILLISECONDS)
     public Response newCocktail(CocktailDTO cocktailDTO){
-        LOG.info("newCocktail aufgerufen");
         counter++;
-        LOG.info("newCocktail neues Cocktail erstellt");
-        return Response.ok(this.cocktailNutzerIn.addCocktail(cocktailDTO)).build();
+        try {
+            CocktailDTO dto = this.cocktailNutzerIn.addCocktail(cocktailDTO);
+            LOG.infof("CocktailResource#newCocktail() invocation returning successfully");
+            return Response.ok(dto).build();
+        } catch (RuntimeException e) {
+            String message = e.getClass().getSimpleName() + ": " + e.getMessage();
+            LOG.errorf("CocktailResource#newCocktail() invocation failed: %s", message);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
+        //return Response.ok(this.cocktailNutzerIn.addCocktail(cocktailDTO)).build();
     }
 
     @DELETE
     @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Delete Cocktail", description = "Delete Cocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
@@ -125,6 +173,8 @@ public class CocktailResource {
 
     @PUT
     @Path("/put")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Edit Cocktail", description = "Edit Cocktail with new name, beschreibung")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
@@ -138,6 +188,8 @@ public class CocktailResource {
 
     @PATCH
     @Path("/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Add Zutat", description = "Added new Zutat to given Cocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))
@@ -157,6 +209,8 @@ public class CocktailResource {
 
     @PATCH
     @Path("/deleteZutat/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
     @Operation(summary = "Delete 1 Zutat", description = "Delete Zutat from Cocktail per ID")
     @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = CocktailNutzerIn.class))))

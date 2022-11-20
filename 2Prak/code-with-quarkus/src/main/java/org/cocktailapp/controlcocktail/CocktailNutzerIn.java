@@ -1,17 +1,30 @@
 package org.cocktailapp.controlcocktail;
 
 import org.boundary.CocktailDTO;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class CocktailNutzerIn implements CocktailInterface{
     CocktailService cocktailService = new CocktailService();
+    private AtomicLong testCounter = new AtomicLong(0);
 
+
+    @CircuitBreaker(requestVolumeThreshold = 4)
     @Override
     public CocktailDTO addCocktail(CocktailDTO cocktailDTO) {
+        maybeFail();
         return this.cocktailService.addCocktail(cocktailDTO);
+    }
+    private void maybeFail() {
+        // introduce some artificial failures
+        final Long invocationNumber = testCounter.getAndIncrement();
+        if (invocationNumber % 4 > 1) { // alternate 2 successful and 2 failing invocations
+            throw new RuntimeException("Service failed.");
+        }
     }
 
     @Override
