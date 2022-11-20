@@ -10,7 +10,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocktailapp.controlcocktail.CocktailNutzerIn;
+
+/** Aufgabe 3.2 */
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+
 import org.jboss.logging.Logger;
+import org.mocktailapp.control.NutzerIn;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +48,9 @@ public class CocktailResource {
     }
 
     @GET
+    @Operation(summary = "Gets all Cocktails", description = "Lists all available cocktails")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Collection<CocktailDTO> cocktailList(){
         LOG.info("getCocktails aufgerufen\n");
         return this.cocktailNutzerIn.getCocktails();
@@ -46,6 +58,9 @@ public class CocktailResource {
 
     @GET
     @Path("/{id}")
+    @Operation(summary = "Gets Cocktail per ID", description = "Lists the Cocktail with same ID as typed")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response getCocktail(@PathParam("id") int id){
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
@@ -56,12 +71,18 @@ public class CocktailResource {
 
     @POST
     @Path("/post")
+    @Operation(summary = "Post a CocktailDTO", description = "Creates new Cocktail")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response newCocktail(CocktailDTO cocktailDTO){
         return Response.ok(this.cocktailNutzerIn.addCocktail(cocktailDTO)).build();
     }
 
     @DELETE
     @Path("/{id}")
+    @Operation(summary = "Delete Cocktail", description = "Delete Cocktail per ID")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response deleteCocktail(@PathParam("id") int id){
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
@@ -73,12 +94,18 @@ public class CocktailResource {
 
     @PUT
     @Path("/put")
+    @Operation(summary = "Edit Cocktail", description = "Edit Cocktail with new name, beschreibung")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response editCocktail(@QueryParam("oldname") String oldname, @QueryParam("newname") String newname, @QueryParam("beschreibung") String beschreibung){
         return Response.ok(this.cocktailNutzerIn.editCocktail(oldname, newname, beschreibung)).build();
     }
 
     @PATCH
     @Path("/{id}")
+    @Operation(summary = "Add Zutat", description = "Added new Zutat to given Cocktail per ID")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response addZutat(@QueryParam("zutat") String zutat, @PathParam("id") int id){
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
@@ -89,6 +116,9 @@ public class CocktailResource {
 
     @PATCH
     @Path("/deleteZutat/{id}")
+    @Operation(summary = "Delete 1 Zutat", description = "Delete Zutat from Cocktail per ID")
+    @APIResponses(value = @APIResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = NutzerIn.class))))
     public Response deleteZutat(@QueryParam("zutat") String zutat, @PathParam("id") int id){
         Optional<CocktailDTO> optCocktailDTO = this.cocktailNutzerIn.findById(id);
         if (optCocktailDTO.isPresent()){
