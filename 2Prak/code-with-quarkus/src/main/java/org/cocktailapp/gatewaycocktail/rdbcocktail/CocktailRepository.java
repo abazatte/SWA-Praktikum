@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CocktailRepository implements CocktailKatalog {
-    private final Map<Integer, Cocktail> cocktailMap = new ConcurrentHashMap<>();
-    private static AtomicInteger idCounter = new AtomicInteger();
+    private final Map<Integer, Cocktail> cocktailMap;
+    private static AtomicInteger idCounter;
     private static CocktailRepository dbConnInstance = null;
 
     public static CocktailRepository getInstance() {
@@ -22,6 +22,11 @@ public class CocktailRepository implements CocktailKatalog {
         return dbConnInstance;
     }
 
+    //wenn man das hier public macht, würde dann injection funktionieren
+    private CocktailRepository(){
+        cocktailMap = new ConcurrentHashMap<>();
+        idCounter = new AtomicInteger();
+    }
 
     private Integer createID(){
         return idCounter.getAndIncrement();
