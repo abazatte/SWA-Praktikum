@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CocktailService {
+    //hier inject
     CocktailKatalog cocktailKatalog = CocktailRepository.getInstance();
     private AtomicLong testCounter = new AtomicLong(0);
 

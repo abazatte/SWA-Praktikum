@@ -9,7 +9,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
+//@ApplicationScoped
+//wenn man injecten will, muss das serializable sein!!!
 public class CocktailRepository implements CocktailKatalog {
     private final Map<Integer, Cocktail> cocktailMap;
     private static AtomicInteger idCounter;

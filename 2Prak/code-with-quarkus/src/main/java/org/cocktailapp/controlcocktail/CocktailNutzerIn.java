@@ -9,9 +9,13 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CocktailNutzerIn implements CocktailInterface{
-    CocktailService cocktailService = new CocktailService();
-    private AtomicLong testCounter = new AtomicLong(0);
+    CocktailService cocktailService;
+    private AtomicLong testCounter;
 
+    public CocktailNutzerIn(){
+        cocktailService = new CocktailService(); //das maybe auch injecten
+        testCounter = new AtomicLong(0);
+    }
 
     @CircuitBreaker(requestVolumeThreshold = 4)
     @Override

@@ -39,6 +39,7 @@ import java.util.*;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CocktailResource {
+    //könnte auch inject sein
     CocktailInterface cocktailNutzerIn = new CocktailNutzerIn();
     private int counter = 0;
     private static final Logger LOG = Logger.getLogger(CocktailResource.class);
