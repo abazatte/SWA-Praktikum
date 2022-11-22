@@ -2,6 +2,7 @@ package org.boundary.rest;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.boundary.MocktailDTO;
+import org.boundary.acl.APIRequestService;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.metrics.MetricUnits;
@@ -28,10 +30,12 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 import org.mocktailapp.control.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -46,6 +50,10 @@ public class MocktailResource {
     GetMocktail getNutzerIn = new NutzerIn();
 
     private static final Logger LOG = Logger.getLogger(MocktailResource.class);
+
+    @Inject
+    @RestClient
+    APIRequestService apiRequestService;
 
     @PostConstruct
     @Timed(name = "initTimer", description = "Wie lange braucht die init-Methode", unit = MetricUnits.MILLISECONDS)
@@ -94,6 +102,24 @@ public class MocktailResource {
         }
         LOG.info("getMocktailByID aufgerufen\n");
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/mocktailDB")
+    public Response getAllMocktailsFromDB(){
+        return apiRequestService.getCocktailOrMocktail("Non_Alcoholic");
+    }
+
+    @GET
+    @Path("/mocktailDB/perIngredient")
+    public Response getMocktailsByIngredients(@QueryParam("s")List<String> ingredients){
+        return apiRequestService.getCMocktailByIngredient(ingredients);
+    }
+
+    @GET
+    @Path("/mocktailDB/searchByName")
+    public Response getCocktailsByNameFromDB(@QueryParam("s") String name){
+        return apiRequestService.getCMocktailByName(name);
     }
 
     @POST

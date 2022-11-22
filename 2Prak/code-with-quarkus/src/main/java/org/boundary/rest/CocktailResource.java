@@ -1,10 +1,12 @@
 package org.boundary.rest;
 
 import org.boundary.CocktailDTO;
+import org.boundary.acl.APIRequestService;
 import org.cocktailapp.controlcocktail.CocktailInterface;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,8 +14,6 @@ import javax.ws.rs.core.Response;
 import org.cocktailapp.controlcocktail.CocktailNutzerIn;
 
 /** Aufgabe 3.2 */
-import org.cocktailapp.controlcocktail.CocktailService;
-import org.cocktailapp.entitycocktail.Cocktail;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
@@ -29,8 +29,8 @@ import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
-import org.mocktailapp.control.NutzerIn;
 
 import java.util.*;
 
@@ -43,6 +43,10 @@ public class CocktailResource {
     CocktailInterface cocktailNutzerIn = new CocktailNutzerIn();
     private int counter = 0;
     private static final Logger LOG = Logger.getLogger(CocktailResource.class);
+
+    @Inject
+    @RestClient
+    APIRequestService apiRequestService;
 
     @PostConstruct
     @Timed(name = "initTimer", description = "Wie lange braucht die init-Methode", unit = MetricUnits.MILLISECONDS)
@@ -75,6 +79,18 @@ public class CocktailResource {
             throw new RuntimeException("Resource failure.");
         }
         return this.cocktailNutzerIn.getCocktails();
+    }
+
+    @GET
+    @Path("/cocktailDB")
+    public Response getAllCocktailsFromDB(){
+        return apiRequestService.getCocktailOrMocktail("Alcoholic");
+    }
+
+    @GET
+    @Path("/cocktailDB/searchByName")
+    public Response getCocktailsByNameFromDB(@QueryParam("s") String name){
+        return apiRequestService.getCMocktailByName(name);
     }
 
     @GET
