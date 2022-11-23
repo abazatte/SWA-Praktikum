@@ -18,7 +18,7 @@ public interface APIRequestService {
     @Path("/filter.php")
     Response getCocktailOrMocktail(@QueryParam("a") String alcoholic);
 
-
+    //localhost:8080/
     @GET
     @Path("/search.php")
     Response getCMocktailByName(@QueryParam("s") String name);
