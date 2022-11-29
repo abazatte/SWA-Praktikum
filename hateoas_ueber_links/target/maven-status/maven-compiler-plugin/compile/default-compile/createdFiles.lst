@@ -1,0 +1,7 @@
+de\hsos\swa\studvw\boundary\StudentInDTO$Converter.class
+de\hsos\swa\studvw\boundary\StudentInResource.class
+de\hsos\swa\studvw\boundary\StudentInDTO.class
+de\hsos\swa\studvw\shared\ResourceUriBuilder.class
+de\hsos\swa\studvw\control\StudentInMgr.class
+org\acme\GreetingResource.class
+de\hsos\swa\studvw\entity\StudentIn.class
