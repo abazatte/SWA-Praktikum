@@ -1,0 +1,33 @@
+package org.mannschaftssport.boundary.ACL;
+
+import org.mannschaftssport.entity.Person;
+
+import javax.ws.rs.core.Link;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class ManagerDTO {
+    public long id;
+    public String type;
+    public Map<String, String> attributes;
+    public Map<String, Link> links;
+
+    public ManagerDTO(){
+        this.attributes = new ConcurrentHashMap<>();
+        this.links = new ConcurrentHashMap<>();
+    }
+
+    public ManagerDTO(long id, String type, Map<String, String> attributes, Map<String, Link> links){
+        this.id = id;
+        this.type = type;
+        this.attributes = attributes;
+        this.links = links;
+    }
+
+    public ManagerDTO(Person manager, Map<String, Link> links){
+        this.id = manager.getId();
+        this.type = manager.getType();
+        this.attributes = manager.getAttributes();
+        this.links = links;
+    }
+}
