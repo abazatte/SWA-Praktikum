@@ -2,10 +2,7 @@ package org.mannschaftssport.boundary.rest;
 
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
-import org.mannschaftssport.boundary.ACL.PlayerDTO;
-import org.mannschaftssport.boundary.ACL.SpielerpassDTO;
-import org.mannschaftssport.boundary.ACL.SpielerpassDummy;
-import org.mannschaftssport.boundary.ACL.TeamDTO;
+import org.mannschaftssport.boundary.ACL.*;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
 
@@ -34,14 +31,14 @@ public class PersonResource {
     @Path("/player")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response addPerson(PlayerDTO playerDTO, SpielerpassDTO spielerpassDTO){
+    public Response addPerson(AddPersonDTO addPersonDTO){
 
-        if(playerDTO != null && spielerpassDTO != null){
-            return Response.ok(personManagement.addPlayer(playerDTO,spielerpassDTO)).build();
+        if(addPersonDTO.playerDTO != null && addPersonDTO.spielerpassDTO != null){
+            return Response.ok(personManagement.addPlayer(addPersonDTO.playerDTO,addPersonDTO.spielerpassDTO)).build();
         }
         return Response.noContent().build();
     }
-    /*
+/*
     @POST
     @Path("/player/{id}")
     @Retry(maxRetries = 4)
@@ -56,6 +53,22 @@ public class PersonResource {
 
         return Response.noContent().build();
     }*/
+    @POST
+    @Path("/player/attributes")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
+    public Response addAttributes(AddAttribDTO addAttribDTO){
+
+        PlayerDTO playerDTO = this.personManagement.getPlayerByID(addAttribDTO.id);
+
+        if(playerDTO != null){
+            return Response.ok(this.personManagement.addAttributes(addAttribDTO.id, addAttribDTO.attributes)).build();
+        }
+
+        return Response.noContent().build();
+    }
+
+
     @GET
     @Path("/player/{id}")
     @Retry(maxRetries = 4)

@@ -59,7 +59,7 @@ public class TeamResource {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/teams/{id}")
     @Retry(maxRetries = 4)
     @Timeout(250)
     public Response getTeamByID(@PathParam("id")long id){
@@ -145,10 +145,10 @@ public class TeamResource {
         return Response.noContent().build();
     }
     @PUT
-    @Path("/{id}/relationships/manager")
+    @Path("/{id}/relationships/players")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response setPlayerToTeam(@PathParam("id")long id,Collection<PlayerDTO> playerDTO){
+    public Response setPlayersToTeam(@PathParam("id")long id,Collection<PlayerDTO> playerDTO){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
 
         if(optTeamDTO != null){
