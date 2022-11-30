@@ -4,6 +4,7 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import org.mannschaftssport.boundary.ACL.SpielerpassDTO;
+import org.mannschaftssport.boundary.ACL.SpielerpassDummy;
 import org.mannschaftssport.boundary.ACL.TeamDTO;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
@@ -26,6 +27,8 @@ public class PersonResource {
     PersonInterface personManagement;
     @Inject
     TeamInterface teamManagement;
+    @Inject
+    SpielerpassDummy spielerpassDummy;
 
     @POST
     @Path("/player")
