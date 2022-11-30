@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.Map;
 
 @ApplicationScoped
@@ -43,8 +44,34 @@ public class PersonResource {
     @Timeout(250)
     public Response addAttributes(@PathParam("id")long id, Map<String,String> attributes){
 
+        PlayerDTO playerDTO = this.personManagement.getPlayerByID(id);
 
+        if(playerDTO != null){
+            return Response.ok(this.personManagement.addAttributes(id, attributes)).build();
+        }
 
+        return Response.noContent().build();
+    }
+    @GET
+    @Path("/player/{id}")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
+    public Response getPlayerByID(@PathParam("id")long id){
+        PlayerDTO playerDTO = this.personManagement.getPlayerByID(id);
+        if(playerDTO != null){
+            return Response.ok(playerDTO).build();
+        }
+        return Response.noContent().build();
+    }
+    @GET
+    @Path("/player/players")
+    @Retry(maxRetries = 4)
+    @Timeout(250)
+    public Response getAllPlayer(){
+        Collection<PlayerDTO> playerDTOS = this.personManagement.getAllPlayer();
+        if (!playerDTOS.isEmpty()){
+            return Response.ok(playerDTOS).build();
+        }
         return Response.noContent().build();
     }
 }
