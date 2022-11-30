@@ -5,10 +5,7 @@ import org.boundary.rest.CocktailResource;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
-import org.mannschaftssport.boundary.ACL.CreateTeamDTO;
-import org.mannschaftssport.boundary.ACL.ManagerDTO;
-import org.mannschaftssport.boundary.ACL.PlayerDTO;
-import org.mannschaftssport.boundary.ACL.TeamDTO;
+import org.mannschaftssport.boundary.ACL.*;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
 import org.mannschaftssport.entity.Person;
@@ -147,6 +144,7 @@ public class TeamResource {
     public Response getManagerFromTeam(@PathParam("id")int id){
         ArrayList<Object> data = new ArrayList<>();
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
+        LOG.info(optTeamDTO);
 /**
  *  HIER KÖNNTE HARAM SEIN!
  */
@@ -162,8 +160,9 @@ public class TeamResource {
     @Path("/{id}/relationships/manager")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response setManagerToTeam(@PathParam("id")int id,ManagerDTO managerDTO){
+    public Response setManagerToTeam(@PathParam("id")int id, PUTManagerDTO putManagerDTO){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
+        ManagerDTO managerDTO = new ManagerDTO(putManagerDTO);
         if(optTeamDTO != null){
             return Response.ok(this.teamManagement.setManagerToTeam(id,managerDTO)).build();
         }

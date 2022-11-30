@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDTO {
     public int id;
-    public String type;
     public Map<String, String> attributes = new ConcurrentHashMap<>();
     @JsonbProperty("links")
     public Map<String, Link> links = new ConcurrentHashMap<>();
