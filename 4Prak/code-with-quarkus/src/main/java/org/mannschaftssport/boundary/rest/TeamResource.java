@@ -91,17 +91,18 @@ public class TeamResource {
                     .build();
         }
     }
+    /*
     @PATCH
     @Path("/teams")
     @Retry(maxRetries = 4)
-    @Timeout(250)
-    public Response updateTeam(long id, Map<String,String> attributes){
+    @Timeout(250)//Queryparam ist haram, lieber json übergeben
+    public Response updateTeam(@QueryParam("id")long id, @QueryParam("attributes")Map<String,String> attributes){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
         if (optTeamDTO != null){
             return Response.ok(this.teamManagement.updateTeam(id,attributes)).build();
         }
         return Response.noContent().build();
-    }
+    }*/
     @DELETE
     @Path("/{id}")
     @Retry(maxRetries = 4)

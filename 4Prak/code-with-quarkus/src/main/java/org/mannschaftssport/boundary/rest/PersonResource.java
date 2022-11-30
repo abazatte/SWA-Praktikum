@@ -41,6 +41,7 @@ public class PersonResource {
         }
         return Response.noContent().build();
     }
+    /*
     @POST
     @Path("/player/{id}")
     @Retry(maxRetries = 4)
@@ -54,7 +55,7 @@ public class PersonResource {
         }
 
         return Response.noContent().build();
-    }
+    }*/
     @GET
     @Path("/player/{id}")
     @Retry(maxRetries = 4)
