@@ -9,13 +9,14 @@ import org.mannschaftssport.boundary.ACL.TeamDTO;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
 import org.mannschaftssport.entity.Team;
+import org.mannschaftssport.shared.ResourceUriBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -31,7 +32,10 @@ public class TeamResource {
     PersonInterface personManagement;
     @Inject
     TeamInterface teamManagement;
-
+    @Inject
+    ResourceUriBuilder resourceUriBuilder;
+    @Context
+    UriInfo uriInfo;
 
 
     @PostConstruct
@@ -150,5 +154,17 @@ public class TeamResource {
             return Response.ok(this.teamManagement.setPlayersToTeam(playerDTO,id)).build();
         }
         return Response.noContent().build();
+    }
+
+    private void addSelfLinkToTeamDTO(TeamDTO teamDTO) {
+        URI selfUri = this.resourceUriBuilder.forTeam(teamDTO.id,this.uriInfo);
+        Link link = Link.fromUri(selfUri)
+                .rel("self")
+                .type(MediaType.APPLICATION_JSON)
+                .param("get studentin", "GET")
+                .param("change studentin", "PUT")
+                .param("delete studentin", "DELETE")
+                .build();
+        //studDTO.addLink("self", link);
     }
 }
