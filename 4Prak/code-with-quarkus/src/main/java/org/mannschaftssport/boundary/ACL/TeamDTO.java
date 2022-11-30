@@ -38,4 +38,7 @@ public class TeamDTO {
             this.players.add(new PlayerDTO(player, links));
         }
     }
+    public void addLink(String name, Link link) {
+        this.links.put(name, link);
+    }
 }

@@ -30,4 +30,7 @@ public class PlayerDTO {
         this.attributes = player.getAttributes();
         this.links = links;
     }
+    public void addLink(String name, Link link) {
+        this.links.put(name, link);
+    }
 }

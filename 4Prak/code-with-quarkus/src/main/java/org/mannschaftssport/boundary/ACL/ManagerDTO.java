@@ -30,4 +30,7 @@ public class ManagerDTO {
         this.attributes = manager.getAttributes();
         this.links = links;
     }
+    public void addLink(String name, Link link) {
+        this.links.put(name, link);
+    }
 }
