@@ -2,6 +2,7 @@ package org.mannschaftssport.boundary.ACL;
 
 import org.mannschaftssport.entity.Person;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.ws.rs.core.Link;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,6 +11,7 @@ public class ManagerDTO {
     public long id;
     public String type;
     public Map<String, String> attributes;
+    @JsonbProperty("links")
     public Map<String, Link> links;
 
     public ManagerDTO(){
