@@ -18,11 +18,11 @@ public class PersonService{
         return personRepository.addPlayer(playerDTO, spielerpassDTO);
     }
 
-    public PlayerDTO addAttributes(long id, Map<String, String> attributes) {
+    public PlayerDTO addAttributes(int id, Map<String, String> attributes) {
         return personRepository.addAttributes(id, attributes);
     }
 
-    public PlayerDTO getPlayerByID(long id) {
+    public PlayerDTO getPlayerByID(int id) {
         return personRepository.getPlayerByID(id);
     }
 

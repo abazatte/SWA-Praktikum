@@ -20,12 +20,12 @@ public class PersonManagement implements PersonInterface{
     }
 
     @Override
-    public PlayerDTO addAttributes(long id, Map<String, String> attributes) {
+    public PlayerDTO addAttributes(int id, Map<String, String> attributes) {
         return personService.addAttributes(id,attributes);
     }
 
     @Override
-    public PlayerDTO getPlayerByID(long id) {
+    public PlayerDTO getPlayerByID(int id) {
         return personService.getPlayerByID(id);
     }
 

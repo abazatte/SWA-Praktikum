@@ -26,13 +26,13 @@ public class PersonRepository implements PersonCatalog {
     }
 
     @Override
-    public PlayerDTO addAttributes(long id, Map<String, String> attributes) {
+    public PlayerDTO addAttributes(int id, Map<String, String> attributes) {
         this.personMap.get(id).setAttributes(attributes);
         return this.getPlayerByID(id);
     }
 
     @Override
-    public PlayerDTO getPlayerByID(long id) {
+    public PlayerDTO getPlayerByID(int id) {
         return new PlayerDTO(this.personMap.get(id), null);
     }
 

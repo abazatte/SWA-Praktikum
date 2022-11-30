@@ -6,11 +6,11 @@ import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import java.util.Map;
 
 public class Person {
-    private long id;
+    private int id;
     private String type;
     private Map<String, String> attributes;
 
-    public Person(long id, String type, Map<String, String> attributes){
+    public Person(int id, String type, Map<String, String> attributes){
         this.id = id;
         this.type = type;
         this.attributes = attributes;
@@ -28,11 +28,11 @@ public class Person {
         this.attributes = player.attributes;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

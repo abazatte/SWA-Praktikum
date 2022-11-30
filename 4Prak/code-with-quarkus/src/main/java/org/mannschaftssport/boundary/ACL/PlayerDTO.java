@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDTO {
-    public long id;
+    public int id;
     public String type;
     public Map<String, String> attributes;
     @JsonbProperty("links")
@@ -19,7 +19,7 @@ public class PlayerDTO {
         this.links = new ConcurrentHashMap<>();
     }
 
-    public PlayerDTO(long id, String type, Map<String, String> attributes, Map<String, Link> links){
+    public PlayerDTO(int id, String type, Map<String, String> attributes, Map<String, Link> links){
         this.id = id;
         this.type = type;
         this.attributes = attributes;

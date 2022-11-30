@@ -73,7 +73,7 @@ public class PersonResource {
     @Path("/player/{id}")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response getPlayerByID(@PathParam("id")long id){
+    public Response getPlayerByID(@PathParam("id")int id){
         PlayerDTO playerDTO = this.personManagement.getPlayerByID(id);
         if(playerDTO != null){
             return Response.ok(playerDTO).build();

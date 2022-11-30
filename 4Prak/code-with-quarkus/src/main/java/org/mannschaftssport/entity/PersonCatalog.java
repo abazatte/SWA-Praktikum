@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface PersonCatalog {
     PlayerDTO addPlayer(PlayerDTO playerDTO, SpielerpassDTO spielerpassDTO);
-    PlayerDTO addAttributes(long id, Map<String, String> attributes);
-    PlayerDTO getPlayerByID(long id);
+    PlayerDTO addAttributes(int id, Map<String, String> attributes);
+    PlayerDTO getPlayerByID(int id);
     Collection<PlayerDTO> getAllPlayer();
 }
