@@ -1,4 +1,4 @@
 package org.mannschaftssport.gateway.repo;
 
-public class PlayerRepository {
+public class PersonRepository {
 }

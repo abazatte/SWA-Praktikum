@@ -1,4 +1,4 @@
 package org.mannschaftssport.boundary.ACL;
 
-public class PlayerDTO {
+public class PersonDTO {
 }

@@ -1,4 +1,4 @@
 package org.mannschaftssport.control;
 
-public interface PlayerInterface {
+public class PersonService {
 }
