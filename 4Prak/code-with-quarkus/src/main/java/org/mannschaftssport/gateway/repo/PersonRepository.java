@@ -19,6 +19,7 @@ public class PersonRepository implements PersonCatalog {
         personMap = new ConcurrentHashMap<>();
     }
 
+
     @Override
     public PlayerDTO addPlayer(PlayerDTO playerDTO, SpielerpassDTO spielerpassDTO) {
         this.personMap.put((int) spielerpassDTO.id, new Person(playerDTO));
@@ -33,14 +34,14 @@ public class PersonRepository implements PersonCatalog {
 
     @Override
     public PlayerDTO getPlayerByID(int id) {
-        return new PlayerDTO(this.personMap.get(id), null);
+        return new PlayerDTO(this.personMap.get(id));
     }
 
     @Override
     public Collection<PlayerDTO> getAllPlayer() {
         Collection<PlayerDTO> dtos = new ArrayList<>();
         for (Person player: personMap.values()) {
-            dtos.add(new PlayerDTO(player, null));
+            dtos.add(new PlayerDTO(player));
         }
         return dtos;
     }

@@ -10,6 +10,7 @@ import javax.json.bind.annotation.JsonbProperty;
 import javax.ws.rs.core.Link;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,8 +19,8 @@ public class TeamDTO {
     public ManagerDTO coach = new ManagerDTO();
     public Collection<PlayerDTO> players = new ArrayList<>();
     @JsonbProperty("links")
-    public Map<String, Link> links = new ConcurrentHashMap<>();
-    public Map<String, String> attributes = new ConcurrentHashMap<>();
+    public Map<String, Link> links = new HashMap<>();
+    public Map<String, String> attributes;
 
     private static final Logger LOG = Logger.getLogger(TeamDTO.class);
 
@@ -27,17 +28,19 @@ public class TeamDTO {
     public TeamDTO(){
     }
 
-    public TeamDTO(long id, ManagerDTO coach, Collection<PlayerDTO> players, Map<String, String> attributes, Map<String, Link> links){
+    public TeamDTO(long id, ManagerDTO coach, Collection<PlayerDTO> players, Map<String, String> attributes){
         this.id = id;
         this.coach = coach;
         this.players = players;
         this.attributes = attributes;
-        this.links = links;
     }
 
     public TeamDTO(CreateTeamDTO createTeamDTO){
         this.attributes = createTeamDTO.attributes;
         this.players = new ArrayList<>();
+    }
+    public TeamDTO(int id, Map<String,String> attributes){
+
     }
 
     public TeamDTO(Team team){

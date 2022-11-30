@@ -4,6 +4,7 @@ import org.mannschaftssport.entity.Person;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.ws.rs.core.Link;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,15 +17,13 @@ public class ManagerDTO {
 
     public ManagerDTO(){}
 
-    public ManagerDTO(int id, String type, Map<String, String> attributes){
+    public ManagerDTO(int id, Map<String, String> attributes){
         this.id = id;
-        this.type = type;
         this.attributes = attributes;
     }
 
     public ManagerDTO(Person manager){
         this.id = manager.getId();
-        this.type = manager.getType();
         this.attributes = manager.getAttributes();
     }
     public void addLink(String name, Link link) {

@@ -19,15 +19,13 @@ public class PlayerDTO {
         this.links = new ConcurrentHashMap<>();
     }
 
-    public PlayerDTO(int id, String type, Map<String, String> attributes){
+    public PlayerDTO(int id, Map<String, String> attributes){
         this.id = id;
-        this.type = type;
         this.attributes = attributes;
     }
 
     public PlayerDTO(Person player){
         this.id = player.getId();
-        this.type = player.getType();
         this.attributes = player.getAttributes();
     }
     public void addLink(String name, Link link) {

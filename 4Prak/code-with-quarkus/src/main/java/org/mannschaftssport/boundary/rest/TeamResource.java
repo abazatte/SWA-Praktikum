@@ -11,6 +11,7 @@ import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import org.mannschaftssport.boundary.ACL.TeamDTO;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
+import org.mannschaftssport.entity.Person;
 import org.mannschaftssport.entity.Team;
 import org.mannschaftssport.shared.ResourceUriBuilder;
 
@@ -20,10 +21,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @ApplicationScoped
 @Path("/team")
@@ -45,6 +43,16 @@ public class TeamResource {
 
     @PostConstruct
     private void init(){
+        int id = 100;
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("verein","nein");
+        PlayerDTO playerDTO = new PlayerDTO(id,attributes);
+        ManagerDTO coach = new ManagerDTO(id,attributes);
+        Collection<PlayerDTO> players = new ArrayList<>();
+        players.add(playerDTO);
+        TeamDTO teamDTO = new TeamDTO(id,coach,players,attributes);
+        addSelfLinkToTeamDTO(teamDTO);
+        createTeamInit(teamDTO);
 
     }
 
@@ -87,6 +95,18 @@ public class TeamResource {
     public Response createTeam(CreateTeamDTO createTeamDTO){
         try{
             TeamDTO dto = this.teamManagement.createTeam(new TeamDTO(createTeamDTO));
+            return Response.ok(dto).build();
+        } catch (RuntimeException e){
+            String message = e.getClass().getSimpleName() + ": " + e.getMessage();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
+    }
+    private Response createTeamInit(TeamDTO teamDTO){
+        try{
+            TeamDTO dto = this.teamManagement.createTeam(teamDTO);
             return Response.ok(dto).build();
         } catch (RuntimeException e){
             String message = e.getClass().getSimpleName() + ": " + e.getMessage();
