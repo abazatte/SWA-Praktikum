@@ -18,41 +18,41 @@ public class TeamManagement implements TeamInterface{
 
     @Override
     public Collection<TeamDTO> getAllTeams() {
-        return null;
+        return teamService.getAllTeams();
     }
 
     @Override
     public TeamDTO getTeamByID(long id) {
-        return null;
+        return teamService.getTeamByID(id);
     }
 
     @Override
     public TeamDTO createTeam(TeamDTO team) {
-        return null;
+        return teamService.createTeam(team);
     }
 
     @Override
     public TeamDTO updateTeam(long id, Map<String, String> attribs) {
-        return null;
+        return teamService.updateTeam(id, attribs);
     }
 
     @Override
     public Boolean deleteTeamByID(long id) {
-        return null;
+        return teamService.deleteTeamByID(id);
     }
 
     @Override
     public ManagerDTO getManagerFromTeam(long teamId) {
-        return null;
+        return teamService.getManagerFromTeam(teamId);
     }
 
     @Override
     public ManagerDTO setManagerToTeam(long teamId, ManagerDTO managerDTO) {
-        return null;
+        return teamService.setManagerToTeam(teamId, managerDTO);
     }
 
     @Override
     public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, long id) {
-        return null;
+        return teamService.setPlayersToTeam(players, id);
     }
 }
