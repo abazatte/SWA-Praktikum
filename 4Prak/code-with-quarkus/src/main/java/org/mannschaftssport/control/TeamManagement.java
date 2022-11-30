@@ -5,11 +5,17 @@ import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import org.mannschaftssport.boundary.ACL.TeamDTO;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Map;
 
 @ApplicationScoped
 public class TeamManagement implements TeamInterface{
+
+    @Inject
+    TeamService teamService;
+
+
     @Override
     public Collection<TeamDTO> getAllTeams() {
         return null;
