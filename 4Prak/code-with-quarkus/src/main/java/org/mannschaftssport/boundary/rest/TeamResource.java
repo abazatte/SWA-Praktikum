@@ -1,8 +1,11 @@
 package org.mannschaftssport.boundary.rest;
 
 import org.boundary.CocktailDTO;
+import org.boundary.rest.CocktailResource;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
+import org.jboss.logging.Logger;
+import org.mannschaftssport.boundary.ACL.CreateTeamDTO;
 import org.mannschaftssport.boundary.ACL.ManagerDTO;
 import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import org.mannschaftssport.boundary.ACL.TeamDTO;
@@ -37,6 +40,8 @@ public class TeamResource {
     @Context
     UriInfo uriInfo;
 
+    private static final Logger LOG = Logger.getLogger(TeamResource.class);
+
 
     @PostConstruct
     private void init(){
@@ -62,7 +67,7 @@ public class TeamResource {
     @Path("/teams/{id}")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response getTeamByID(@PathParam("id")long id){
+    public Response getTeamByID(@PathParam("id")int id){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
 
         if(optTeamDTO != null){
@@ -79,9 +84,9 @@ public class TeamResource {
     @Path("/teams")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response createTeam(TeamDTO teamDTO){
+    public Response createTeam(CreateTeamDTO createTeamDTO){
         try{
-            TeamDTO dto = this.teamManagement.createTeam(teamDTO);
+            TeamDTO dto = this.teamManagement.createTeam(new TeamDTO(createTeamDTO));
             return Response.ok(dto).build();
         } catch (RuntimeException e){
             String message = e.getClass().getSimpleName() + ": " + e.getMessage();
@@ -107,7 +112,7 @@ public class TeamResource {
     @Path("/{id}")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response deleteTeamById(@PathParam("id")long id){
+    public Response deleteTeamById(@PathParam("id")int id){
         TeamDTO dto = this.teamManagement.getTeamByID(id);
         if(dto != null){
            this.teamManagement.deleteTeamByID(id);
@@ -119,7 +124,7 @@ public class TeamResource {
     @Path("/{id}/manager")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response getManagerFromTeam(@PathParam("id")long id){
+    public Response getManagerFromTeam(@PathParam("id")int id){
         ArrayList<Object> data = new ArrayList<>();
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
 /**
@@ -137,7 +142,7 @@ public class TeamResource {
     @Path("/{id}/relationships/manager")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response setManagerToTeam(@PathParam("id")long id,ManagerDTO managerDTO){
+    public Response setManagerToTeam(@PathParam("id")int id,ManagerDTO managerDTO){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
         if(optTeamDTO != null){
             return Response.ok(this.teamManagement.setManagerToTeam(id,managerDTO)).build();
@@ -148,7 +153,7 @@ public class TeamResource {
     @Path("/{id}/relationships/players")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response setPlayersToTeam(@PathParam("id")long id,Collection<PlayerDTO> playerDTO){
+    public Response setPlayersToTeam(@PathParam("id")int id,Collection<PlayerDTO> playerDTO){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
 
         if(optTeamDTO != null){
@@ -166,6 +171,6 @@ public class TeamResource {
                 .param("change studentin", "PUT")
                 .param("delete studentin", "DELETE")
                 .build();
-        //studDTO.addLink("self", link);
+        teamDTO.addLink("self", link);
     }
 }

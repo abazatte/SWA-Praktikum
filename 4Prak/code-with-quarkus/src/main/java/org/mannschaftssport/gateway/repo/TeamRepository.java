@@ -1,8 +1,10 @@
 package org.mannschaftssport.gateway.repo;
 
+import org.jboss.logging.Logger;
 import org.mannschaftssport.boundary.ACL.ManagerDTO;
 import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import org.mannschaftssport.boundary.ACL.TeamDTO;
+import org.mannschaftssport.boundary.rest.TeamResource;
 import org.mannschaftssport.entity.Person;
 import org.mannschaftssport.entity.Team;
 import org.mannschaftssport.entity.TeamCatalog;
@@ -10,6 +12,7 @@ import org.mannschaftssport.entity.TeamCatalog;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,9 +21,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TeamRepository implements TeamCatalog {
     private final Map<Integer, Team> teamMap;
     private static AtomicInteger idCounter;
+    private static final Logger LOG = Logger.getLogger(TeamRepository.class);
+
 
     public TeamRepository(){
-        teamMap = new ConcurrentHashMap<>();
+        teamMap = new HashMap<>();
         idCounter = new AtomicInteger();
     }
 
@@ -32,32 +37,41 @@ public class TeamRepository implements TeamCatalog {
     public Collection<TeamDTO> getAllTeams() {
         Collection<TeamDTO> dtos = new ArrayList<>();
         for (Team team: teamMap.values()){
-            dtos.add(new TeamDTO(team, null));
+            dtos.add(new TeamDTO(team));
         }
         return dtos;
     }
 
     @Override
-    public TeamDTO getTeamByID(long id) {
-        return new TeamDTO(this.teamMap.get(id), null);
+    public TeamDTO getTeamByID(int id) {
+       // LOG.info(id +"teamDTO vom neuem team1 :" );
+        Team team = this.teamMap.get(id);
+        //LOG.info("supeadf team  " + team);
+        //LOG.info(teamDTO);
+        return new TeamDTO(team);
     }
 
     @Override
     public TeamDTO createTeam(TeamDTO team) {
         int id = createID();
         team.id = id;
-        teamMap.put(id, new Team(team));
+        LOG.info("teamdto ID "+team.id);
+        //System.out.println(team.id);
+        Team newTeam = new Team(team);
+        teamMap.put(id, newTeam);
+
         return getTeamByID(id);
     }
 
     @Override
-    public TeamDTO updateTeam(long id, Map<String, String> attribs) {
+    public TeamDTO updateTeam(int id, Map<String, String> attribs) {
+
         this.teamMap.get(id).setAttributes(attribs);
-        return new TeamDTO(this.teamMap.get(id), null);
+        return new TeamDTO(this.teamMap.get(id));
     }
 
     @Override
-    public Boolean deleteTeamByID(long id) {
+    public Boolean deleteTeamByID(int id) {
         try{
             this.teamMap.remove(id);
             return true;
@@ -67,18 +81,18 @@ public class TeamRepository implements TeamCatalog {
     }
 
     @Override
-    public ManagerDTO getManagerFromTeam(long teamId) {
-        return new ManagerDTO(this.teamMap.get(teamId).getCoach(), null);
+    public ManagerDTO getManagerFromTeam(int teamId) {
+        return new ManagerDTO(this.teamMap.get(teamId).getCoach());
     }
 
     @Override
-    public ManagerDTO setManagerToTeam(long teamId, ManagerDTO managerDTO) {
+    public ManagerDTO setManagerToTeam(int teamId, ManagerDTO managerDTO) {
         this.teamMap.get(teamId).setCoach(new Person(managerDTO));
-        return new ManagerDTO(this.teamMap.get(teamId).getCoach(), null);
+        return new ManagerDTO(this.teamMap.get(teamId).getCoach());
     }
 
     @Override
-    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, long id) {
+    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, int id) {
         Collection<Person> playerList = new ArrayList<>();
         for (PlayerDTO player: players) {
             playerList.add(new Person(player));

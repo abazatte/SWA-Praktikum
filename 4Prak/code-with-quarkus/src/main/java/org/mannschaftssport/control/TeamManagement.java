@@ -22,7 +22,7 @@ public class TeamManagement implements TeamInterface{
     }
 
     @Override
-    public TeamDTO getTeamByID(long id) {
+    public TeamDTO getTeamByID(int id) {
         return teamService.getTeamByID(id);
     }
 
@@ -32,27 +32,27 @@ public class TeamManagement implements TeamInterface{
     }
 
     @Override
-    public TeamDTO updateTeam(long id, Map<String, String> attribs) {
+    public TeamDTO updateTeam(int id, Map<String, String> attribs) {
         return teamService.updateTeam(id, attribs);
     }
 
     @Override
-    public Boolean deleteTeamByID(long id) {
+    public Boolean deleteTeamByID(int id) {
         return teamService.deleteTeamByID(id);
     }
 
     @Override
-    public ManagerDTO getManagerFromTeam(long teamId) {
+    public ManagerDTO getManagerFromTeam(int teamId) {
         return teamService.getManagerFromTeam(teamId);
     }
 
     @Override
-    public ManagerDTO setManagerToTeam(long teamId, ManagerDTO managerDTO) {
+    public ManagerDTO setManagerToTeam(int teamId, ManagerDTO managerDTO) {
         return teamService.setManagerToTeam(teamId, managerDTO);
     }
 
     @Override
-    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, long id) {
+    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, int id) {
         return teamService.setPlayersToTeam(players, id);
     }
 }

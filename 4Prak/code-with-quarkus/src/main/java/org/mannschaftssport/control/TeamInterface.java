@@ -9,13 +9,13 @@ import java.util.Map;
 
 public interface TeamInterface {
     Collection<TeamDTO> getAllTeams();
-    TeamDTO getTeamByID(long id);
+    TeamDTO getTeamByID(int id);
     TeamDTO createTeam(TeamDTO team);
-    TeamDTO updateTeam(long id, Map<String,String> attribs);
-    Boolean deleteTeamByID(long id);
-    ManagerDTO getManagerFromTeam(long teamId);
-    ManagerDTO setManagerToTeam(long teamId, ManagerDTO managerDTO);
-    Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, long id);
+    TeamDTO updateTeam(int id, Map<String,String> attribs);
+    Boolean deleteTeamByID(int id);
+    ManagerDTO getManagerFromTeam(int teamId);
+    ManagerDTO setManagerToTeam(int teamId, ManagerDTO managerDTO);
+    Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, int id);
 
 
 }

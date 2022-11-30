@@ -21,7 +21,7 @@ public class Team {
     }
     public Team(TeamDTO team){
         this.id = team.id;
-        this.coach = new Person(team.coach);
+        //this.coach = new Person(team.coach);
         this.players = new ArrayList<>();
         collectionConverter(team.players);
         this.attributes = team.attributes;
@@ -63,5 +63,15 @@ public class Team {
 
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", coach=" + coach +
+                ", players=" + players +
+                ", attributes=" + attributes +
+                '}';
     }
 }

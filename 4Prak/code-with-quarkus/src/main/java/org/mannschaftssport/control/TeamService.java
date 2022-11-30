@@ -20,7 +20,7 @@ public class TeamService {
         return teamRepository.getAllTeams();
     }
 
-    public TeamDTO getTeamByID(long id) {
+    public TeamDTO getTeamByID(int id) {
         return teamRepository.getTeamByID(id);
     }
 
@@ -28,24 +28,24 @@ public class TeamService {
         return teamRepository.createTeam(team);
     }
 
-    public TeamDTO updateTeam(long id, Map<String, String> attribs) {
+    public TeamDTO updateTeam(int id, Map<String, String> attribs) {
         return teamRepository.updateTeam(id,attribs);
     }
 
-    public Boolean deleteTeamByID(long id) {
+    public Boolean deleteTeamByID(int id) {
         return teamRepository.deleteTeamByID(id);
     }
 
 
-    public ManagerDTO getManagerFromTeam(long teamId) {
+    public ManagerDTO getManagerFromTeam(int teamId) {
         return teamRepository.getManagerFromTeam(teamId);
     }
 
-    public ManagerDTO setManagerToTeam(long teamId, ManagerDTO managerDTO) {
+    public ManagerDTO setManagerToTeam(int teamId, ManagerDTO managerDTO) {
         return teamRepository.setManagerToTeam(teamId,managerDTO);
     }
 
-    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, long id) {
+    public Collection<PlayerDTO> setPlayersToTeam(Collection<PlayerDTO> players, int id) {
         return teamRepository.setPlayersToTeam(players,id);
     }
 }

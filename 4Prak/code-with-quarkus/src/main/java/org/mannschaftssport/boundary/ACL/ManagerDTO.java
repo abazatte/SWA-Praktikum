@@ -10,27 +10,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ManagerDTO {
     public int id;
     public String type;
-    public Map<String, String> attributes;
+    public Map<String, String> attributes = new ConcurrentHashMap<>();;
     @JsonbProperty("links")
-    public Map<String, Link> links;
+    public Map<String, Link> links = new ConcurrentHashMap<>();;
 
-    public ManagerDTO(){
-        this.attributes = new ConcurrentHashMap<>();
-        this.links = new ConcurrentHashMap<>();
-    }
+    public ManagerDTO(){}
 
-    public ManagerDTO(int id, String type, Map<String, String> attributes, Map<String, Link> links){
+    public ManagerDTO(int id, String type, Map<String, String> attributes){
         this.id = id;
         this.type = type;
         this.attributes = attributes;
-        this.links = links;
     }
 
-    public ManagerDTO(Person manager, Map<String, Link> links){
+    public ManagerDTO(Person manager){
         this.id = manager.getId();
         this.type = manager.getType();
         this.attributes = manager.getAttributes();
-        this.links = links;
     }
     public void addLink(String name, Link link) {
         this.links.put(name, link);

@@ -1,24 +1,30 @@
 package org.mannschaftssport.boundary.ACL;
 
+import io.quarkus.logging.Log;
+import org.jboss.logging.Logger;
 import org.mannschaftssport.entity.Person;
 import org.mannschaftssport.entity.Team;
+import org.mannschaftssport.gateway.repo.TeamRepository;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.ws.rs.core.Link;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TeamDTO {
     public long id;
-    public ManagerDTO coach;
-    public Collection<PlayerDTO> players;
+    public ManagerDTO coach = new ManagerDTO();
+    public Collection<PlayerDTO> players = new ArrayList<>();
     @JsonbProperty("links")
-    public Map<String, Link> links;
-    public Map<String, String> attributes;
+    public Map<String, Link> links = new ConcurrentHashMap<>();
+    public Map<String, String> attributes = new ConcurrentHashMap<>();
+
+    private static final Logger LOG = Logger.getLogger(TeamDTO.class);
+
 
     public TeamDTO(){
-        players = new ArrayList<>();
     }
 
     public TeamDTO(long id, ManagerDTO coach, Collection<PlayerDTO> players, Map<String, String> attributes, Map<String, Link> links){
@@ -29,21 +35,47 @@ public class TeamDTO {
         this.links = links;
     }
 
-    public TeamDTO(Team team, Map<String, Link> links){
-        this.id = team.getId();
-        this.coach = new ManagerDTO(team.getCoach(), links);
+    public TeamDTO(CreateTeamDTO createTeamDTO){
+        this.attributes = createTeamDTO.attributes;
         this.players = new ArrayList<>();
-        collectionConverter(team.getPlayers(), links);
-        this.attributes = team.getAttributes();
-        this.links = links;
     }
 
-    public void collectionConverter(Collection<Person> players, Map<String, Link> links){
+    public TeamDTO(Team team){
+        //LOG.info(team.getId() + "hi teamdto");
+        this.id = team.getId();
+        if(team.getCoach() != null){
+            this.coach = new ManagerDTO(team.getCoach());
+        }
+        if(!team.getPlayers().isEmpty()){
+            collectionConverter(team.getPlayers());
+        }
+
+        this.attributes = team.getAttributes();
+    }
+
+    public TeamDTO(long id, Map<String,String> attributes){
+        this.id = id;
+        this.coach = new ManagerDTO();
+        this.attributes = attributes;
+    }
+
+    public void collectionConverter(Collection<Person> players){
         for (Person player: players) {
-            this.players.add(new PlayerDTO(player, links));
+            this.players.add(new PlayerDTO(player));
         }
     }
     public void addLink(String name, Link link) {
         this.links.put(name, link);
+    }
+
+    @Override
+    public String toString() {
+        return "TeamDTO{" +
+                "id=" + id +
+                ", coach=" + coach +
+                ", players=" + players +
+                ", links=" + links +
+                ", attributes=" + attributes +
+                '}';
     }
 }
