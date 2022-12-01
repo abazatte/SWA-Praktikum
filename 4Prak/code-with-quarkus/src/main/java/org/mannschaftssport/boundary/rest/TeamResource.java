@@ -217,7 +217,7 @@ public class TeamResource {
     }
 
     private void addSelfLinkToPlayerDTO(PlayerDTO playerDTO) {
-        URI selfUri = this.resourceUriBuilder.forTeam((long) playerDTO.id,this.uriInfo);
+        URI selfUri = this.resourceUriBuilder.forPlayer((long) playerDTO.id,this.uriInfo);
         Link link = Link.fromUri(selfUri)
                 .rel("self")
                 .type(MediaType.APPLICATION_JSON)
@@ -229,7 +229,7 @@ public class TeamResource {
     }
 
     private void addSelfLinkToManagerDTO(ManagerDTO managerDTO) {
-        URI selfUri = this.resourceUriBuilder.forTeam((long) managerDTO.id,this.uriInfo);
+        URI selfUri = this.resourceUriBuilder.forManager((long) managerDTO.id,this.uriInfo);
         Link link = Link.fromUri(selfUri)
                 .rel("self")
                 .type(MediaType.APPLICATION_JSON)
