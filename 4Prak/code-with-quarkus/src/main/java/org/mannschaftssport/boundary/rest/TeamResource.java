@@ -61,6 +61,12 @@ public class TeamResource {
 
         Collection<TeamDTO> allTeamDTO = teamManagement.getAllTeams();
 
+        for(TeamDTO dto: allTeamDTO){
+            addSelfLinkToTeamDTO(dto);
+        }
+
+
+
         if(allTeamDTO==null) {
             return Response.noContent().build();
         }
@@ -75,8 +81,14 @@ public class TeamResource {
     public Response getTeamByID(@PathParam("id")int id){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
 
+        addSelfLinkToTeamDTO(optTeamDTO);
+
         if(optTeamDTO != null){
             try{
+                addSelfLinkToManagerDTO(optTeamDTO.coach);
+                for (PlayerDTO playerDTO: optTeamDTO.players){
+                    addSelfLinkToPlayerDTO(playerDTO);
+                }
                 return Response.ok(optTeamDTO).build();
             } catch (RuntimeException e){
                 return Response.noContent().build();
@@ -179,8 +191,12 @@ public class TeamResource {
         Collection<PlayerDTO> playerDTOS = new ArrayList<>();
 
         for (PlayerRelationshipDTO s:playerRelationshipDTO) {
+
             playerDTOS.add(new PlayerDTO(s));
+
         }
+
+
 
         if(optTeamDTO != null){
             return Response.ok(this.teamManagement.setPlayersToTeam(playerDTOS,id)).build();
@@ -193,10 +209,35 @@ public class TeamResource {
         Link link = Link.fromUri(selfUri)
                 .rel("self")
                 .type(MediaType.APPLICATION_JSON)
-                .param("get studentin", "GET")
-                .param("change studentin", "PUT")
-                .param("delete studentin", "DELETE")
+                .param("get Team", "GET")
+                .param("change Team", "PUT")
+                .param("delete Team", "DELETE")
                 .build();
         teamDTO.addLink("self", link);
     }
+
+    private void addSelfLinkToPlayerDTO(PlayerDTO playerDTO) {
+        URI selfUri = this.resourceUriBuilder.forTeam((long) playerDTO.id,this.uriInfo);
+        Link link = Link.fromUri(selfUri)
+                .rel("self")
+                .type(MediaType.APPLICATION_JSON)
+                .param("get Player", "GET")
+                .param("change Player", "PUT")
+                .param("delete Player", "DELETE")
+                .build();
+        playerDTO.addLink("self", link);
+    }
+
+    private void addSelfLinkToManagerDTO(ManagerDTO managerDTO) {
+        URI selfUri = this.resourceUriBuilder.forTeam((long) managerDTO.id,this.uriInfo);
+        Link link = Link.fromUri(selfUri)
+                .rel("self")
+                .type(MediaType.APPLICATION_JSON)
+                .param("get Manager", "GET")
+                .param("change Manager", "PUT")
+                .param("delete Manager", "DELETE")
+                .build();
+        managerDTO.addLink("self", link);
+    }
+
 }
