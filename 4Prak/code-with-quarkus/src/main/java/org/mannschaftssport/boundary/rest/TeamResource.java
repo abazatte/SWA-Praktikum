@@ -1,7 +1,5 @@
 package org.mannschaftssport.boundary.rest;
 
-import org.boundary.CocktailDTO;
-import org.boundary.rest.CocktailResource;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
