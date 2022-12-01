@@ -6,7 +6,7 @@ import org.mannschaftssport.boundary.ACL.PlayerDTO;
 import java.util.Map;
 
 public class Person {
-    private int id; //fdsaf
+    private int id;
     private Map<String, String> attributes;
 
     public Person(int id, Map<String, String> attributes){

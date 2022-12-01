@@ -52,14 +52,12 @@ public class TeamRepository implements TeamCatalog {
     }
 
     @Override
-    public TeamDTO createTeam(TeamDTO team) {
+    public TeamDTO createTeam(TeamDTO teamDTO) {
         int id = createID();
-        team.id = id;
-        LOG.info("teamdto ID "+team.id);
-        //System.out.println(team.id);
-        Team newTeam = new Team(team);
+        teamDTO.id = id;
+        LOG.info("teamdto ID "+teamDTO.id);
+        Team newTeam = new Team(teamDTO);
         teamMap.put(id, newTeam);
-
         return getTeamByID(id);
     }
 

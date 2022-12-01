@@ -2,11 +2,17 @@ package org.mannschaftssport.boundary.ACL;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CreateTeamDTO {
-    Map<String,String> attributes;
+    public Map<String,String> attributes = new ConcurrentHashMap<>();
 
-    public CreateTeamDTO(){
-        attributes = new HashMap<>();
+
+
+    @Override
+    public String toString() {
+        return "CreateTeamDTO{" +
+                "attributes=" + attributes +
+                '}';
     }
 }

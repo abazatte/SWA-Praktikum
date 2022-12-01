@@ -90,6 +90,7 @@ public class TeamResource {
     @Retry(maxRetries = 4)
     @Timeout(250)
     public Response createTeam(CreateTeamDTO createTeamDTO){
+        LOG.info(createTeamDTO);
         try{
             TeamDTO dto = this.teamManagement.createTeam(new TeamDTO(createTeamDTO));
             return Response.ok(dto).build();

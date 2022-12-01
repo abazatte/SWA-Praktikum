@@ -20,7 +20,7 @@ public class TeamDTO {
     public Collection<PlayerDTO> players = new ArrayList<>();
     @JsonbProperty("links")
     public Map<String, Link> links = new HashMap<>();
-    public Map<String, String> attributes;
+    public Map<String, String> attributes = new ConcurrentHashMap<>();
 
     private static final Logger LOG = Logger.getLogger(TeamDTO.class);
 
@@ -52,8 +52,7 @@ public class TeamDTO {
         if(!team.getPlayers().isEmpty()){
             collectionConverter(team.getPlayers());
         }
-
-        this.attributes = team.getAttributes();
+        attributeConverter(team.getAttributes());
     }
 
     public TeamDTO(long id, Map<String,String> attributes){
@@ -62,11 +61,21 @@ public class TeamDTO {
         this.attributes = attributes;
     }
 
-    public void collectionConverter(Collection<Person> players){
+    private void collectionConverter(Collection<Person> players){
         for (Person player: players) {
             this.players.add(new PlayerDTO(player));
         }
     }
+
+    private void attributeConverter(Map<String,String> attributes){
+        try{
+            this.attributes.putAll(attributes);
+        } catch(RuntimeException r){
+            LOG.info("in Teamdto gestorben");
+            LOG.info(r.getMessage());
+        }
+    }
+
     public void addLink(String name, Link link) {
         this.links.put(name, link);
     }
