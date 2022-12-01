@@ -102,6 +102,7 @@ public class TeamResource {
                     .build();
         }
     }
+
     private Response createTeamInit(TeamDTO teamDTO){
         try{
             TeamDTO dto = this.teamManagement.createTeam(teamDTO);
@@ -173,11 +174,16 @@ public class TeamResource {
     @Path("/{id}/relationships/players")
     @Retry(maxRetries = 4)
     @Timeout(250)
-    public Response setPlayersToTeam(@PathParam("id")int id,Collection<PlayerDTO> playerDTO){
+    public Response setPlayersToTeam(@PathParam("id")int id,Collection<PlayerRelationshipDTO> playerRelationshipDTO){
         TeamDTO optTeamDTO = this.teamManagement.getTeamByID(id);
+        Collection<PlayerDTO> playerDTOS = new ArrayList<>();
+
+        for (PlayerRelationshipDTO s:playerRelationshipDTO) {
+            playerDTOS.add(new PlayerDTO(s));
+        }
 
         if(optTeamDTO != null){
-            return Response.ok(this.teamManagement.setPlayersToTeam(playerDTO,id)).build();
+            return Response.ok(this.teamManagement.setPlayersToTeam(playerDTOS,id)).build();
         }
         return Response.noContent().build();
     }

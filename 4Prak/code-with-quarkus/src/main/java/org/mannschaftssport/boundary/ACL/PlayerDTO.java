@@ -13,9 +13,14 @@ public class PlayerDTO {
     @JsonbProperty("links")
     public Map<String, Link> links = new ConcurrentHashMap<>();
 
+
     public PlayerDTO(){
         this.attributes = new ConcurrentHashMap<>();
         this.links = new ConcurrentHashMap<>();
+    }
+    public PlayerDTO(PlayerRelationshipDTO playerRelationshipDTO){
+        this.id = playerRelationshipDTO.id;
+        attributeConverter(playerRelationshipDTO.attributes);
     }
 
     public PlayerDTO(int id, Map<String, String> attributes){
@@ -26,6 +31,12 @@ public class PlayerDTO {
     public PlayerDTO(Person player){
         this.id = player.getId();
         this.attributes = player.getAttributes();
+    }
+    private void attributeConverter(Map<String,String> attributes){
+        try{
+            this.attributes.putAll(attributes);
+        } catch(RuntimeException r){
+        }
     }
     public void addLink(String name, Link link) {
         this.links.put(name, link);
