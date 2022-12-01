@@ -13,16 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
 public class PersonRepository implements PersonCatalog {
-    private final Map<Integer, Person> personMap;
+    private final Map<Integer, Person> personMap = new ConcurrentHashMap<>();;
 
     public PersonRepository(){
-        personMap = new ConcurrentHashMap<>();
     }
 
 
     @Override
     public PlayerDTO addPlayer(PlayerDTO playerDTO, SpielerpassDTO spielerpassDTO) {
-        this.personMap.put((int) spielerpassDTO.id, new Person(playerDTO));
+        this.personMap.put(spielerpassDTO.id, new Person(playerDTO));
         return this.getPlayerByID(spielerpassDTO.id);
     }
 

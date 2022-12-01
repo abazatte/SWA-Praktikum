@@ -6,13 +6,17 @@ import org.mannschaftssport.boundary.ACL.*;
 import org.mannschaftssport.control.PersonInterface;
 import org.mannschaftssport.control.TeamInterface;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
 @Path("/team")
@@ -26,6 +30,26 @@ public class PersonResource {
     TeamInterface teamManagement;
     @Inject
     SpielerpassDummy spielerpassDummy;
+
+    @PostConstruct
+    private void init(){
+        SpielerpassDTO spielerpassDTO = spielerpassDummy.egenerateSpielerpassDTO();
+        PlayerDTO player = new PlayerDTO(spielerpassDTO.id, new ConcurrentHashMap<>());
+
+        this.personManagement.addPlayer(player,spielerpassDTO);
+        /*
+        int id = 100;
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("verein","nein");
+        PlayerDTO playerDTO = new PlayerDTO(id,attributes);
+        ManagerDTO coach = new ManagerDTO(id,attributes);
+        Collection<PlayerDTO> players = new ArrayList<>();
+        players.add(playerDTO);
+        TeamDTO teamDTO = new TeamDTO(id,coach,players,attributes);
+        addSelfLinkToTeamDTO(teamDTO);
+        createTeamInit(teamDTO);
+*/
+    }
 
     @POST
     @Path("/player")
