@@ -18,6 +18,13 @@ public class PlayerDTO {
         this.attributes = new ConcurrentHashMap<>();
         this.links = new ConcurrentHashMap<>();
     }
+
+    public PlayerDTO(AddPersonDTO addPersonDTO, SpielerpassDTO spielerpassDTO){
+
+        this.id = spielerpassDTO.id;
+        attributeConverter(addPersonDTO.attributes);
+
+    }
     public PlayerDTO(PlayerRelationshipDTO playerRelationshipDTO){
         this.id = playerRelationshipDTO.id;
         attributeConverter(playerRelationshipDTO.attributes);

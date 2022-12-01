@@ -12,14 +12,11 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
-@Path("/team")
+@Path("/person")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PersonResource {
@@ -33,7 +30,7 @@ public class PersonResource {
 
     @PostConstruct
     private void init(){
-        SpielerpassDTO spielerpassDTO = spielerpassDummy.egenerateSpielerpassDTO();
+        SpielerpassDTO spielerpassDTO = spielerpassDummy.generateSpielerpassDTO();
         PlayerDTO player = new PlayerDTO(spielerpassDTO.id, new ConcurrentHashMap<>());
 
         this.personManagement.addPlayer(player,spielerpassDTO);
@@ -55,10 +52,13 @@ public class PersonResource {
     @Path("/player")
     @Retry(maxRetries = 4)
     @Timeout(250)
+    //Spielerpass haram, name wird nicht übergeben
     public Response addPerson(AddPersonDTO addPersonDTO){
 
-        if(addPersonDTO.playerDTO != null && addPersonDTO.spielerpassDTO != null){
-            return Response.ok(personManagement.addPlayer(addPersonDTO.playerDTO,addPersonDTO.spielerpassDTO)).build();
+        if(addPersonDTO != null){
+            SpielerpassDTO spielerpassDTO =spielerpassDummy.generateSpielerpassDTO();
+            PlayerDTO playerDTO = new PlayerDTO(addPersonDTO,spielerpassDTO);
+            return Response.ok(personManagement.addPlayer(playerDTO,spielerpassDTO)).build();
         }
         return Response.noContent().build();
     }

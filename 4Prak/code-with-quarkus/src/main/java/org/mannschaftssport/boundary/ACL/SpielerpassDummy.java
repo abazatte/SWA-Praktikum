@@ -7,12 +7,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SpielerpassDummy {
     private static AtomicInteger idCounter = new AtomicInteger();
 
-
     private Integer createID(){
         return idCounter.getAndIncrement();
     }
 
-    public SpielerpassDTO egenerateSpielerpassDTO(){
+    public SpielerpassDTO generateSpielerpassDTO(){
         return new SpielerpassDTO(createID(), "name");
     }
 }
