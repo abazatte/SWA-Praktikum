@@ -1,4 +1,4 @@
-package org.acme.hibernate.orm.panache.repository;
+package org.acme.hibernate.orm.flottenmanagement.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 

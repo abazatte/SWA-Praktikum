@@ -1,4 +1,4 @@
-package org.acme.hibernate.orm.panache.entity;
+package org.acme.hibernate.orm.flottenmanagement.repository;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.acme.hibernate.orm.panache.repository.Fruit;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,23 +24,26 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import io.quarkus.panache.common.Sort;
 
-@Path("entity/fruits")
+@Path("repository/fruits")
 @ApplicationScoped
 @Produces("application/json")
 @Consumes("application/json")
-public class FruitEntityResource {
+public class FruitRepositoryResource {
 
-    private static final Logger LOGGER = Logger.getLogger(FruitEntityResource.class.getName());
+    @Inject
+    FruitRepository fruitRepository;
+
+    private static final Logger LOGGER = Logger.getLogger(FruitRepositoryResource.class.getName());
 
     @GET
-    public List<FruitEntity> get() {
-        return FruitEntity.listAll(Sort.by("name"));
+    public List<Fruit> get() {
+        return fruitRepository.listAll(Sort.by("name"));
     }
 
     @GET
     @Path("{id}")
-    public FruitEntity getSingle(Long id) {
-        FruitEntity entity = FruitEntity.findById(id);
+    public Fruit getSingle(Long id) {
+        Fruit entity = fruitRepository.findById(id);
         if (entity == null) {
             throw new WebApplicationException("Fruit with id of " + id + " does not exist.", 404);
         }
@@ -50,24 +52,24 @@ public class FruitEntityResource {
 
     @POST
     @Transactional
-    public Response create(FruitEntity fruit) {
+    public Response create(Fruit fruit) {
         if (fruit.id != null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
 
-        fruit.persist();
+        fruitRepository.persist(fruit);
         return Response.ok(fruit).status(201).build();
     }
 
     @PUT
     @Path("{id}")
     @Transactional
-    public FruitEntity update(Long id, Fruit fruit) {
+    public Fruit update(Long id, Fruit fruit) {
         if (fruit.name == null) {
             throw new WebApplicationException("Fruit Name was not set on request.", 422);
         }
 
-        FruitEntity entity = FruitEntity.findById(id);
+        Fruit entity = fruitRepository.findById(id);
 
         if (entity == null) {
             throw new WebApplicationException("Fruit with id of " + id + " does not exist.", 404);
@@ -82,11 +84,11 @@ public class FruitEntityResource {
     @Path("{id}")
     @Transactional
     public Response delete(Long id) {
-        FruitEntity entity = FruitEntity.findById(id);
+        Fruit entity = fruitRepository.findById(id);
         if (entity == null) {
             throw new WebApplicationException("Fruit with id of " + id + " does not exist.", 404);
         }
-        entity.delete();
+        fruitRepository.delete(entity);
         return Response.status(204).build();
     }
 

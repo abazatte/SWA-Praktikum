@@ -1,4 +1,4 @@
-package org.acme.hibernate.orm.panache.repository;
+package org.acme.hibernate.orm.flottenmanagement.repository;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;

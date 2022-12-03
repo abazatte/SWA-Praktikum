@@ -1,4 +1,4 @@
-package org.acme.hibernate.orm.panache.entity;
+package org.acme.hibernate.orm.flottenmanagement.entity;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
