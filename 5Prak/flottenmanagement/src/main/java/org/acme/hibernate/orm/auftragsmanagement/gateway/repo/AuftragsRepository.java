@@ -1,4 +1,33 @@
 package org.acme.hibernate.orm.auftragsmanagement.gateway.repo;
 
-public class AuftragsRepository {
+import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.*;
+import org.acme.hibernate.orm.auftragsmanagement.entity.AuftragsCatalog;
+
+import java.util.Collection;
+
+public class AuftragsRepository implements AuftragsCatalog {
+    @Override
+    public Collection<ReturnAuftragDTO> getAllAuftraege() {
+        return null;
+    }
+
+    @Override
+    public ReturnAuftragDTO addAuftrag(PostAuftragDTO postAuftragDTO) {
+        return null;
+    }
+
+    @Override
+    public ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO) {
+        return null;
+    }
+
+    @Override
+    public Boolean deleteAuftrag(DeleteAuftragDTO deleteAuftragDTO) {
+        return null;
+    }
+
+    @Override
+    public ReturnAuftragDTO findAuftragByID(GetAuftragDTO getAuftragDTO) {
+        return null;
+    }
 }

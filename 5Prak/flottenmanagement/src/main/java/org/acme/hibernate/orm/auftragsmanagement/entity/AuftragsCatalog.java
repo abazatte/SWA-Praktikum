@@ -1,12 +1,13 @@
 package org.acme.hibernate.orm.auftragsmanagement.entity;
 
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.PatchAuftragDTO;
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.PostAuftragDTO;
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.ReturnAuftragDTO;
+import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.*;
+
+import java.util.Collection;
 
 public interface AuftragsCatalog {
+    Collection<ReturnAuftragDTO> getAllAuftraege();
     ReturnAuftragDTO addAuftrag(PostAuftragDTO postAuftragDTO);
     ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO);
-    Boolean deleteAuftag(long id);
-    ReturnAuftragDTO findAuftragByID(long id);
+    Boolean deleteAuftrag(DeleteAuftragDTO deleteAuftragDTO);
+    ReturnAuftragDTO findAuftragByID(GetAuftragDTO getAuftragDTO);
 }
