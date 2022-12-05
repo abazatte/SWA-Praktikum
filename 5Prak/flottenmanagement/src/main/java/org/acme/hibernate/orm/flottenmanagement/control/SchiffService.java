@@ -1,5 +1,10 @@
 package org.acme.hibernate.orm.flottenmanagement.control;
 
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.DeleteSchiffDTO;
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
+import org.acme.hibernate.orm.flottenmanagement.entity.SchiffCatalog;
+
 import javax.inject.Inject;
 
 public class SchiffService {
@@ -7,17 +12,17 @@ public class SchiffService {
     SchiffCatalog schiffRepository;
 
 
-    @Override
-    public SchiffDTO AuftragAnSchiffUebergeben(long id) {
-        return schiffRepository.AuftragAnSchiffUebergeben(id);
+
+    public ReturnSchiffDTO auftragAnSchiffUebergeben(long id) {
+        return schiffRepository.auftragAnSchiffUebergeben(id);
     }
 
-    @Override
+
     public ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO) {
         return schiffRepository.addSchiff(postSchiffDTO);
     }
 
-    @Override
+
     public boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO) {
         return schiffRepository.deleteSchiff(deleteSchiffDTO);
     }

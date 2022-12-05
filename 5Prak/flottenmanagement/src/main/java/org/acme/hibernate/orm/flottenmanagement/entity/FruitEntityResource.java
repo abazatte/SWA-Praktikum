@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.acme.hibernate.orm.flottenmanagement.repository.Fruit;
+import org.acme.hibernate.orm.flottenmanagement.gateway.repository.Fruit;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
