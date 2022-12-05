@@ -6,12 +6,18 @@ import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.entity.SchiffCatalog;
 
 import javax.inject.Inject;
+import java.util.Collection;
 
 public class SchiffService {
     @Inject
     SchiffCatalog schiffRepository;
 
-
+    Collection<ReturnSchiffDTO> getAll(){
+        return null;
+    }
+    ReturnSchiffDTO getSchiffByID(long id){
+        return null;
+    }
 
     public ReturnSchiffDTO auftragAnSchiffUebergeben(long id) {
         return schiffRepository.auftragAnSchiffUebergeben(id);

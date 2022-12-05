@@ -5,10 +5,23 @@ import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 
 import javax.inject.Inject;
+import java.util.Collection;
 
 public class SchiffManager implements Schiffinterface{
     @Inject
     SchiffService schiffService;
+
+
+    @Override
+    public Collection<ReturnSchiffDTO> getAll() {
+        return null;
+    }
+
+    @Override
+    public ReturnSchiffDTO getSchiffByID(long id) {
+        return null;
+    }
+
     @Override
     public ReturnSchiffDTO AuftragAnSchiffUebergeben(long id) {
         return schiffService.auftragAnSchiffUebergeben(id);

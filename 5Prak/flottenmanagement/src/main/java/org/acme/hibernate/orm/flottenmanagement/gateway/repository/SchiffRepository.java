@@ -7,6 +7,7 @@ import org.acme.hibernate.orm.flottenmanagement.control.Schiffinterface;
 import org.acme.hibernate.orm.flottenmanagement.entity.Schiff;
 import org.acme.hibernate.orm.flottenmanagement.entity.SchiffCatalog;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,16 @@ public class SchiffRepository implements SchiffCatalog {
 
     public SchiffRepository() {
         schiffMap = new HashMap<>();
+    }
+
+    @Override
+    public Collection<ReturnSchiffDTO> getAll() {
+        return null;
+    }
+
+    @Override
+    public ReturnSchiffDTO getSchiffByID(long id) {
+        return null;
     }
 
     @Override

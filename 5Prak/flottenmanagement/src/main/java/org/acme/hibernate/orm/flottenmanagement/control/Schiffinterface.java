@@ -8,6 +8,7 @@ import java.util.Collection;
 
 public interface Schiffinterface {
     Collection<ReturnSchiffDTO> getAll();
+    ReturnSchiffDTO getSchiffByID(long id);
     ReturnSchiffDTO AuftragAnSchiffUebergeben(long id);
     ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO);
     boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO);
