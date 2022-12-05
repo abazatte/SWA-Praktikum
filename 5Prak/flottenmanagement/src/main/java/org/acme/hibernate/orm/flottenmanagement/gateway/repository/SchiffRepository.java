@@ -44,8 +44,8 @@ public class SchiffRepository implements SchiffCatalog {
     }
 
     @Override
-    public boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO) {
-        Schiff schiff = Schiff.findById(deleteSchiffDTO.id);
+    public boolean deleteSchiff(long id) {
+        Schiff schiff = Schiff.findById(id);
         if(schiff != null){
             schiff.delete();
             return true;
