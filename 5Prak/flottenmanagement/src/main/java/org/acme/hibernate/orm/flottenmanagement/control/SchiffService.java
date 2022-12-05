@@ -19,8 +19,8 @@ public class SchiffService {
         return null;
     }
 
-    public ReturnSchiffDTO auftragAnSchiffUebergeben(long id) {
-        return schiffRepository.auftragAnSchiffUebergeben(id);
+    public ReturnSchiffDTO auftragAnSchiffUebergeben(long id, boolean hatAuftrag) {
+        return schiffRepository.auftragAnSchiffUebergeben(id,hatAuftrag);
     }
 
 

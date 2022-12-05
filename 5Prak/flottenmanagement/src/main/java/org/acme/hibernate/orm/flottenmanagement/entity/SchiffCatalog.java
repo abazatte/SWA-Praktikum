@@ -9,7 +9,7 @@ import java.util.Collection;
 public interface SchiffCatalog {
     Collection<ReturnSchiffDTO> getAll();
     ReturnSchiffDTO getSchiffByID(long id);
-    ReturnSchiffDTO auftragAnSchiffUebergeben(long id);
+    ReturnSchiffDTO auftragAnSchiffUebergeben(long id, boolean hatAuftrag);
     ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO);
     boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO);
 }

@@ -12,34 +12,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SchiffRepository implements SchiffCatalog {
-    private final Map<Integer, Schiff> schiffMap;
 
     public SchiffRepository() {
-        schiffMap = new HashMap<>();
+
     }
 
     @Override
     public Collection<ReturnSchiffDTO> getAll() {
-        return null;
+        return (Collection<ReturnSchiffDTO>) Schiff.findAll();
     }
 
     @Override
     public ReturnSchiffDTO getSchiffByID(long id) {
-        return null;
+        Schiff schiff = Schiff.findById(id);
+        ReturnSchiffDTO returnSchiffDTO = new ReturnSchiffDTO(schiff);
+        return returnSchiffDTO;
     }
 
     @Override
-    public ReturnSchiffDTO auftragAnSchiffUebergeben(long id) {
-        return null;
+    public ReturnSchiffDTO auftragAnSchiffUebergeben(long id, boolean hatAuftrag) {
+        Schiff schiff = Schiff.findById(id);
+        schiff.setHatAuftrag(hatAuftrag);
+        ReturnSchiffDTO returnSchiffDTO = new ReturnSchiffDTO(schiff);
+        return returnSchiffDTO;
     }
 
     @Override
     public ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO) {
-        return null;
+        Schiff schiff = new Schiff(postSchiffDTO);
+        return new ReturnSchiffDTO(schiff);
     }
 
     @Override
     public boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO) {
-        return false;
+        Schiff schiff = Schiff.findById(deleteSchiffDTO.id);
+        if(schiff != null){
+            schiff.delete();
+            return true;
+        }else {
+            return false;
+        }
     }
 }

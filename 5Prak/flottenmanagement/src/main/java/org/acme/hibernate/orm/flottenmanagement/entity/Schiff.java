@@ -1,12 +1,13 @@
 package org.acme.hibernate.orm.flottenmanagement.entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 
 import javax.persistence.*;
 
 @Entity
 @Cacheable
-public class Schiff {
+public class Schiff extends PanacheEntity {
    @Id
    @GeneratedValue
     private long id;
@@ -29,6 +30,7 @@ public class Schiff {
     public Schiff() {
 
     }
+
 
     public long getId() {
         return id;

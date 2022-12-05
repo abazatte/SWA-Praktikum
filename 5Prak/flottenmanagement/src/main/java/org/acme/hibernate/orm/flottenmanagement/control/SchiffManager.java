@@ -23,8 +23,8 @@ public class SchiffManager implements Schiffinterface{
     }
 
     @Override
-    public ReturnSchiffDTO AuftragAnSchiffUebergeben(long id) {
-        return schiffService.auftragAnSchiffUebergeben(id);
+    public ReturnSchiffDTO AuftragAnSchiffUebergeben(long id, boolean hatAuftrag) {
+        return schiffService.auftragAnSchiffUebergeben(id, hatAuftrag);
     }
 
     @Override
