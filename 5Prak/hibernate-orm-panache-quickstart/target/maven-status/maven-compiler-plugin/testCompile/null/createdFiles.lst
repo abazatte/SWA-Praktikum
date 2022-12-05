@@ -1,0 +1,3 @@
+org\acme\hibernate\orm\panache\FruitsEndpointIT.class
+org\acme\hibernate\orm\panache\FruitsEndpointTest.class
+META-INF\panache-archive.marker
