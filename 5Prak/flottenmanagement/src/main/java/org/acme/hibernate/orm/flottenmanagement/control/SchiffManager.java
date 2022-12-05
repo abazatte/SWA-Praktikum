@@ -4,9 +4,10 @@ import org.acme.hibernate.orm.flottenmanagement.boundary.acl.DeleteSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
-
+@ApplicationScoped
 public class SchiffManager implements Schiffinterface{
     @Inject
     SchiffService schiffService;

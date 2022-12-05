@@ -1,5 +1,6 @@
 package org.acme.hibernate.orm.flottenmanagement.gateway.repository;
 
+import io.quarkus.panache.common.Sort;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.DeleteSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
@@ -7,10 +8,10 @@ import org.acme.hibernate.orm.flottenmanagement.control.Schiffinterface;
 import org.acme.hibernate.orm.flottenmanagement.entity.Schiff;
 import org.acme.hibernate.orm.flottenmanagement.entity.SchiffCatalog;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import javax.enterprise.context.ApplicationScoped;
+import java.util.*;
 
+@ApplicationScoped
 public class SchiffRepository implements SchiffCatalog {
 
     public SchiffRepository() {
@@ -19,7 +20,12 @@ public class SchiffRepository implements SchiffCatalog {
 
     @Override
     public Collection<ReturnSchiffDTO> getAll() {
-        return (Collection<ReturnSchiffDTO>) Schiff.findAll();
+        List<Schiff> schiffList = Schiff.listAll(Sort.by("id"));
+        Collection<ReturnSchiffDTO> returnSchiffDTOS = new ArrayList<>();
+        for (Schiff s: schiffList){
+            returnSchiffDTOS.add(new ReturnSchiffDTO(s));
+        }
+        return returnSchiffDTOS;
     }
 
     @Override
@@ -40,6 +46,7 @@ public class SchiffRepository implements SchiffCatalog {
     @Override
     public ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO) {
         Schiff schiff = new Schiff(postSchiffDTO);
+        schiff.persist();
         return new ReturnSchiffDTO(schiff);
     }
 

@@ -5,9 +5,10 @@ import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.entity.SchiffCatalog;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
-
+@ApplicationScoped
 public class SchiffService {
     @Inject
     SchiffCatalog schiffRepository;

@@ -1,15 +1,22 @@
 package org.acme.hibernate.orm.flottenmanagement.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 
 import javax.persistence.*;
 
 @Entity
 @Cacheable
-public class Schiff extends PanacheEntity {
+public class Schiff extends PanacheEntityBase {
+
    @Id
-   @GeneratedValue
+   @SequenceGenerator(
+           name = "SchiffSequence",
+           sequenceName = "Schiff_id_seq",
+           allocationSize = 1,
+           initialValue = 1)
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SchiffSequence")
     private long id;
 
     @Column(length = 100, unique = true)

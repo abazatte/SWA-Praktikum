@@ -1,16 +1,13 @@
 package org.acme.hibernate.orm.flottenmanagement.gateway.repository;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Cacheable
 public class Fruit {
 
     @Id
+
     @GeneratedValue
     public Long id;
 
