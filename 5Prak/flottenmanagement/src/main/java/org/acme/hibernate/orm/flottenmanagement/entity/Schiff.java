@@ -2,8 +2,16 @@ package org.acme.hibernate.orm.flottenmanagement.entity;
 
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 
+import javax.persistence.*;
+
+@Entity
+@Cacheable
 public class Schiff {
+   @Id
+   @GeneratedValue
     private long id;
+
+    @Column(length = 100, unique = true)
     private String name;
     private boolean hatAuftrag;
 
@@ -16,6 +24,10 @@ public class Schiff {
     public Schiff(PostSchiffDTO postSchiffDTO){
         this.setName(postSchiffDTO.name);
         this.setHatAuftrag(false);
+    }
+
+    public Schiff() {
+
     }
 
     public long getId() {
