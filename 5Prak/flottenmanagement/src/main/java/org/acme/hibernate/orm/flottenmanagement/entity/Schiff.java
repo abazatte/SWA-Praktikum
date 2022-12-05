@@ -1,5 +1,7 @@
 package org.acme.hibernate.orm.flottenmanagement.entity;
 
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
+
 public class Schiff {
     private long id;
     private String name;
@@ -8,6 +10,11 @@ public class Schiff {
     public Schiff(long id, String name){
         this.setId(id);
         this.setName(name);
+        this.setHatAuftrag(false);
+    }
+
+    public Schiff(PostSchiffDTO postSchiffDTO){
+        this.setName(postSchiffDTO.name);
         this.setHatAuftrag(false);
     }
 
