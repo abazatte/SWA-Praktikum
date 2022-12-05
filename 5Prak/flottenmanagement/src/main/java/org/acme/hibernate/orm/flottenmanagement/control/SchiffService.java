@@ -13,10 +13,10 @@ public class SchiffService {
     SchiffCatalog schiffRepository;
 
     Collection<ReturnSchiffDTO> getAll(){
-        return null;
+        return schiffRepository.getAll();
     }
     ReturnSchiffDTO getSchiffByID(long id){
-        return null;
+        return schiffRepository.getSchiffByID(id);
     }
 
     public ReturnSchiffDTO auftragAnSchiffUebergeben(long id, boolean hatAuftrag) {
@@ -29,7 +29,7 @@ public class SchiffService {
     }
 
 
-    public boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO) {
-        return schiffRepository.deleteSchiff(deleteSchiffDTO);
+    public boolean deleteSchiff(long id) {
+        return schiffRepository.deleteSchiff(id);
     }
 }

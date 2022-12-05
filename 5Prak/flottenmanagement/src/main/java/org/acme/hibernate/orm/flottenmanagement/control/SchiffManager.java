@@ -14,12 +14,12 @@ public class SchiffManager implements Schiffinterface{
 
     @Override
     public Collection<ReturnSchiffDTO> getAll() {
-        return null;
+        return schiffService.getAll();
     }
 
     @Override
     public ReturnSchiffDTO getSchiffByID(long id) {
-        return null;
+        return schiffService.getSchiffByID(id);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SchiffManager implements Schiffinterface{
     }
 
     @Override
-    public boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO) {
-        return schiffService.deleteSchiff(deleteSchiffDTO);
+    public boolean deleteSchiff(long id) {
+        return schiffService.deleteSchiff(id);
     }
 }

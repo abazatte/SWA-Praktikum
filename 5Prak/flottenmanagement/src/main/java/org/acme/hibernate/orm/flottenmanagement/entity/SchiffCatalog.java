@@ -11,5 +11,5 @@ public interface SchiffCatalog {
     ReturnSchiffDTO getSchiffByID(long id);
     ReturnSchiffDTO auftragAnSchiffUebergeben(long id, boolean hatAuftrag);
     ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO);
-    boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO);
+    boolean deleteSchiff(long id);
 }

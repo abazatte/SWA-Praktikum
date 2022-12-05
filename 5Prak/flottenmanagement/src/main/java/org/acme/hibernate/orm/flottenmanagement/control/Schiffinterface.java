@@ -11,5 +11,5 @@ public interface Schiffinterface {
     ReturnSchiffDTO getSchiffByID(long id);
     ReturnSchiffDTO AuftragAnSchiffUebergeben(long id, boolean hatAuftrag);
     ReturnSchiffDTO addSchiff(PostSchiffDTO postSchiffDTO);
-    boolean deleteSchiff(DeleteSchiffDTO deleteSchiffDTO);
+    boolean deleteSchiff(long id);
 }
