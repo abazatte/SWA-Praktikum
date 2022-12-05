@@ -8,6 +8,6 @@ public interface AuftragsInterface {
     Collection<ReturnAuftragDTO> getAllAuftraege();
     ReturnAuftragDTO addAuftrag(PostAuftragDTO postAuftragDTO);
     ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO);
-    Boolean deleteAuftrag(DeleteAuftragDTO deleteAuftragDTO);
-    ReturnAuftragDTO findAuftragByID(GetAuftragDTO getAuftragDTO);
+    Boolean deleteAuftrag(long id);
+    ReturnAuftragDTO findAuftragByID(long id);
 }

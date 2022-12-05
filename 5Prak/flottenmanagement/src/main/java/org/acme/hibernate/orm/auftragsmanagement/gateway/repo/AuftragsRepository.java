@@ -22,12 +22,12 @@ public class AuftragsRepository implements AuftragsCatalog {
     }
 
     @Override
-    public Boolean deleteAuftrag(DeleteAuftragDTO deleteAuftragDTO) {
+    public Boolean deleteAuftrag(long id) {
         return null;
     }
 
     @Override
-    public ReturnAuftragDTO findAuftragByID(GetAuftragDTO getAuftragDTO) {
+    public ReturnAuftragDTO findAuftragByID(long id) {
         return null;
     }
 }
