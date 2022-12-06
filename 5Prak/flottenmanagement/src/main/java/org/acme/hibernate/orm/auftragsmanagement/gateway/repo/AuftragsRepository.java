@@ -8,9 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.TimeZone;
+import java.util.*;
 
 @ApplicationScoped
 public class AuftragsRepository implements AuftragsCatalog {
@@ -19,8 +17,13 @@ public class AuftragsRepository implements AuftragsCatalog {
     EntityManager em;
     @Override
     public Collection<ReturnAuftragDTO> getAllAuftraege() {
+        Collection<Auftrag> auftraege = em.createNamedQuery("Auftrag.findAll", Auftrag.class).getResultList();
+        Collection<ReturnAuftragDTO> returnAuftragDTOS = new ArrayList<>();
+        for (Auftrag a: auftraege){
+            returnAuftragDTOS.add(new ReturnAuftragDTO(a));
+        }
 
-        return null;
+        return returnAuftragDTOS;
     }
 
     @Transactional
@@ -36,6 +39,7 @@ public class AuftragsRepository implements AuftragsCatalog {
     @Transactional
     @Override
     public ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO) {
+
         return null;
     }
     @Transactional

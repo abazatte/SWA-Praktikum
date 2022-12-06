@@ -6,7 +6,8 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "auftraege")
-@NamedQuery(name = "Auftrag.findAll", query = "SELECT f FROM Fruit f ORDER BY f.name", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
+@NamedQuery(name = "Auftrag.findAll", query = "SELECT a FROM Auftrag a ORDER BY a.id", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
+@NamedQuery(name = "Auftrag.findByID", query =  "SELECT a FROM Auftrag a WHERE a.id = :id" , hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @Cacheable
 public class Auftrag {
     @Id
