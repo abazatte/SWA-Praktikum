@@ -1,7 +1,6 @@
 package org.acme.hibernate.orm.auftragsmanagement.entity;
 
 import javax.persistence.*;
-import javax.ws.rs.core.Link;
 import java.net.URI;
 import java.sql.Date;
 
@@ -14,15 +13,49 @@ public class Auftrag {
     @SequenceGenerator(name = "AuftragsSequence", sequenceName = "known_auftrags_id_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "AuftragsSequence")
     private Long id;
-
     @Column(length = 1000)
-    private String name;
+    private String beschreibung;
 
     @Column
     private Date eingangsDatum;
 
     @Column
     private URI schiffURL;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public void setBeschreibung(String name) {
+        this.beschreibung = name;
+    }
+
+    public Date getEingangsDatum() {
+        return eingangsDatum;
+    }
+
+    public void setEingangsDatum(Date eingangsDatum) {
+        this.eingangsDatum = eingangsDatum;
+    }
+
+    public URI getSchiffURL() {
+        return schiffURL;
+    }
+
+    public void setSchiffURL(URI schiffURL) {
+        this.schiffURL = schiffURL;
+    }
+
+
 
     public Auftrag(){}
 
