@@ -6,3 +6,5 @@ INSERT INTO fruitEntity(id, name) VALUES (nextval('hibernate_sequence'), 'Banana
 INSERT INTO fruit(id, name) VALUES (1, 'Cherry');
 INSERT INTO fruit(id, name) VALUES (2, 'Apple');
 INSERT INTO fruit(id, name) VALUES (3, 'Banana');
+
+insert into auftraege(id, beschreibung, eingangsDatum, SchiffURL) values (0,'bsp beschreibung',null,null);

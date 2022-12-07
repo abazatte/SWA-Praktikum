@@ -36,12 +36,14 @@ public class AuftragsRessource {
 
 
     @DELETE
+    @Path("/{id}")
     public Boolean deleteAuftrag(long id) {
         return auftragsInterface.deleteAuftrag(id);
     }
 
 
     @GET
+    @Path("/{id}")
     public ReturnAuftragDTO findAuftragByID(long id) {
         return auftragsInterface.findAuftragByID(id);
     }

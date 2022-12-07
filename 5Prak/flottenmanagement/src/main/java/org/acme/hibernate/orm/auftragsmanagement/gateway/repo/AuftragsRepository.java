@@ -45,33 +45,42 @@ public class AuftragsRepository implements AuftragsCatalog {
     @Transactional
     @Override
     public ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO) {
+
+        Auftrag auftrag1 = em.find(Auftrag.class, patchAuftragDTO.id);
+        auftrag1.setBeschreibung(patchAuftragDTO.beschreibung);
+        auftrag1.setEingangsDatum(patchAuftragDTO.eingangsDatum);
+        auftrag1.setSchiffURL(patchAuftragDTO.SchiffURL);
+        em.flush();
+        /*
         ReturnAuftragDTO auftrag = findAuftragByID(patchAuftragDTO.id);
         if(auftrag != null){
-            em.createNamedQuery("Auftrag.update", Auftrag.class).setParameter("beschreibung", patchAuftragDTO.beschreibung).setParameter("eingangsdatum",patchAuftragDTO.eingangsDatum).setParameter("schiffURL",patchAuftragDTO.SchiffURL).getResultList();
+            em.createNamedQuery("Auftrag.update").setParameter("id",patchAuftragDTO.id).setParameter("beschreibung", patchAuftragDTO.beschreibung).setParameter("eingangsdatum",patchAuftragDTO.eingangsDatum).setParameter("schiffURL",patchAuftragDTO.SchiffURL).getResultList();
             return auftrag;
         }else {
             throw new NotFoundException();
-        }
+        }*/
+
+        return new ReturnAuftragDTO(auftrag1);
     }
 
     @Transactional
     @Override
     public Boolean deleteAuftrag(long id) {
+        em.remove(em.find(Auftrag.class, id));
+        /*
         if (findAuftragByID(id) != null) {
-            em.createNamedQuery("Auftrag.delete", Auftrag.class).setParameter("id", id).getResultList();
+            em.createNamedQuery("Auftrag.delete").setParameter("id", id).getResultList();
             return true;
-        }
-        return false;
+        }*/
+        return true;
 
     }
 
 
     @Override
     public ReturnAuftragDTO findAuftragByID(long id) {
-        List<Auftrag> retAuftrag = em.createNamedQuery("Auftrag.findByID").setParameter("id",id).getResultList();
-        if(retAuftrag.size()>1){
-            LOG.info("findAuftragByID kriegt zuviel");
-        }
-        return new ReturnAuftragDTO(retAuftrag.get(0));
+
+        return new ReturnAuftragDTO(em.find(Auftrag.class, id));
     }
+
 }
