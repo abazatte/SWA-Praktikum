@@ -7,6 +7,7 @@ import org.acme.hibernate.orm.flottenmanagement.boundary.acl.EventDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.control.Schiffinterface;
+import org.acme.hibernate.orm.flottenmanagement.shared.ResourceUriBuilder;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +16,8 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.Collection;
 
 @Path("/schiffe")
@@ -31,7 +33,10 @@ public class SchiffRessource {
     @Inject
     Event<EventDTO> uriSendEvent;
 
-
+    @Inject
+    ResourceUriBuilder resourceUriBuilder;
+    @Context
+    UriInfo uriInfo;
 
     @GET
     public Collection<ReturnSchiffDTO> getAll() {
@@ -72,6 +77,14 @@ public class SchiffRessource {
         ReturnSchiffDTO returnSchiffDTO = getFreeShip();
         schiffinterface.auftragAnSchiffUebergeben(returnSchiffDTO.id, true);
 
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.selfuri = addSelfLinkToSchiff(returnSchiffDTO).getUri();
+        eventDTO.auftragsid = auftragID;
+
+
+        uriSendEvent.fireAsync(eventDTO);
+
+
     }
 
     //das ist noch haram, hier muss das schiff gefunden werden
@@ -87,5 +100,16 @@ public class SchiffRessource {
             }
         }
         throw new NotFoundException("Alle Schiffe haben momentan einen Auftrag!");
+    }
+    private Link addSelfLinkToSchiff(ReturnSchiffDTO returnSchiffDTO) {
+        URI selfUri = this.resourceUriBuilder.forSchiff(returnSchiffDTO.id,this.uriInfo);
+        Link link = Link.fromUri(selfUri)
+                .rel("self")
+                .type(MediaType.APPLICATION_JSON)
+                .param("get Team", "GET")
+                .param("change Team", "PUT")
+                .param("delete Team", "DELETE")
+                .build();
+        return link;
     }
 }

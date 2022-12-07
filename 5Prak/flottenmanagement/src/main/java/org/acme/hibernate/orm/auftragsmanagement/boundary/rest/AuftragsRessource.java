@@ -2,9 +2,11 @@ package org.acme.hibernate.orm.auftragsmanagement.boundary.rest;
 
 import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.*;
 import org.acme.hibernate.orm.auftragsmanagement.control.AuftragsInterface;
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.EventDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.Collection;
@@ -60,5 +62,12 @@ public class AuftragsRessource {
     @Path("/{id}")
     public ReturnAuftragDTO findAuftragByID(long id) {
         return auftragsInterface.findAuftragByID(id);
+    }
+
+    public void schiffEmpfangen(@Observes EventDTO eventDTO){
+        ReturnAuftragDTO returnAuftragDTO = findAuftragByID(eventDTO.auftragsid);
+        returnAuftragDTO.schiffURL = eventDTO.selfuri;
+        PatchAuftragDTO patchAuftragDTO = new PatchAuftragDTO(returnAuftragDTO);
+        editAuftrag(patchAuftragDTO);
     }
 }

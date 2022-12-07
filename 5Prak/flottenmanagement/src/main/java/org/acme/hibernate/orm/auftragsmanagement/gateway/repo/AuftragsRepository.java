@@ -49,7 +49,7 @@ public class AuftragsRepository implements AuftragsCatalog {
         Auftrag auftrag1 = em.find(Auftrag.class, patchAuftragDTO.id);
         auftrag1.setBeschreibung(patchAuftragDTO.beschreibung);
         auftrag1.setEingangsDatum(patchAuftragDTO.eingangsDatum);
-        auftrag1.setSchiffURL(patchAuftragDTO.SchiffURL);
+        auftrag1.setSchiffURL(patchAuftragDTO.schiffURL);
         em.flush();
         /*
         ReturnAuftragDTO auftrag = findAuftragByID(patchAuftragDTO.id);
