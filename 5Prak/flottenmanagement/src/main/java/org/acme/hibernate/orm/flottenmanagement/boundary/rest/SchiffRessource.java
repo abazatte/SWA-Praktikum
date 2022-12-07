@@ -2,12 +2,15 @@ package org.acme.hibernate.orm.flottenmanagement.boundary.rest;
 
 import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.Eingegangen;
 import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.Storniert;
+import org.acme.hibernate.orm.auftragsmanagement.gateway.repo.AuftragsRepository;
+import org.acme.hibernate.orm.flottenmanagement.boundary.acl.EventDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.control.Schiffinterface;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -24,6 +27,11 @@ public class SchiffRessource {
     private static final Logger LOG = Logger.getLogger(SchiffRessource.class);
     @Inject
     Schiffinterface schiffinterface;
+
+    @Inject
+    Event<EventDTO> uriSendEvent;
+
+
 
     @GET
     public Collection<ReturnSchiffDTO> getAll() {
