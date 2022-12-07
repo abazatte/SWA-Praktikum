@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.*;
 
 @ApplicationScoped
@@ -40,17 +41,30 @@ public class AuftragsRepository implements AuftragsCatalog {
         em.persist(auftrag);
         return new ReturnAuftragDTO(auftrag);
     }
+
     @Transactional
     @Override
     public ReturnAuftragDTO editAuftrag(PatchAuftragDTO patchAuftragDTO) {
-
-        return null;
+        ReturnAuftragDTO auftrag = findAuftragByID(patchAuftragDTO.id);
+        if(auftrag != null){
+            em.createNamedQuery("Auftrag.update", Auftrag.class).setParameter("beschreibung", patchAuftragDTO.beschreibung).setParameter("eingangsdatum",patchAuftragDTO.eingangsDatum).setParameter("schiffURL",patchAuftragDTO.SchiffURL).getResultList();
+            return auftrag;
+        }else {
+            throw new NotFoundException();
+        }
     }
+
     @Transactional
     @Override
     public Boolean deleteAuftrag(long id) {
-        return null;
+        if (findAuftragByID(id) != null) {
+            em.createNamedQuery("Auftrag.delete", Auftrag.class).setParameter("id", id).getResultList();
+            return true;
+        }
+        return false;
+
     }
+
 
     @Override
     public ReturnAuftragDTO findAuftragByID(long id) {

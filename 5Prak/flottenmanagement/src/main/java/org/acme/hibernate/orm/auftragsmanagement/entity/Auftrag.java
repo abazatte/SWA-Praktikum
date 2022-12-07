@@ -9,6 +9,7 @@ import java.sql.Date;
 @NamedQuery(name = "Auftrag.findAll", query = "SELECT a FROM Auftrag a ORDER BY a.id", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @NamedQuery(name = "Auftrag.findByID", query =  "SELECT a FROM Auftrag a WHERE a.id = :id" , hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 @NamedQuery(name = "Auftrag.update", query = "UPDATE Auftrag a set a.beschreibung = :beschreibung, a.eingangsDatum = :eingangsdatum, a.schiffURL = :schiffURL where a.id = :id")
+@NamedQuery(name = "Auftrag.delete", query = "DELETE FROM Auftrag a WHERE a.id = :id")
 @Cacheable
 public class Auftrag {
     @Id

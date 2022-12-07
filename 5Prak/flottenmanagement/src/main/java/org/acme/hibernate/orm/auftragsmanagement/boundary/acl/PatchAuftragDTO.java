@@ -5,6 +5,7 @@ import java.net.URI;
 import java.sql.Date;
 
 public class PatchAuftragDTO {
+    public long id;
     public String beschreibung;
     public Date eingangsDatum;
     public URI SchiffURL;
