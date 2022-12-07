@@ -40,7 +40,7 @@ public class AuftragsRessource {
     public ReturnAuftragDTO addAuftrag(PostAuftragDTO postAuftragDTO) {
         ReturnAuftragDTO returnAuftragDTO = auftragsInterface.addAuftrag(postAuftragDTO);
         Long auftragID = returnAuftragDTO.id;
-        auftragEingegangen.fireAsync(auftragID);
+        auftragEingegangen.fire(auftragID);
         return returnAuftragDTO;
     }
 
@@ -53,7 +53,7 @@ public class AuftragsRessource {
     @DELETE
     @Path("/{id}")
     public Boolean deleteAuftrag(long id) {
-        auftragStorniert.fireAsync(id); //der link oder id vom schiff muss rein
+        auftragStorniert.fire(id); //der link oder id vom schiff muss rein
         return auftragsInterface.deleteAuftrag(id);
     }
 

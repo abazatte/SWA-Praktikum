@@ -15,7 +15,7 @@ public class Schiff extends PanacheEntityBase {
            name = "SchiffSequence",
            sequenceName = "Schiff_id_seq",
            allocationSize = 1,
-           initialValue = 1)
+           initialValue = 5)
    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SchiffSequence")
     private long id;
 

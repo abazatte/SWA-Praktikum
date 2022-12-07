@@ -74,6 +74,7 @@ public class SchiffRessource {
     }
 
     public void schiffNimmtAuftragAn(@Observes @Eingegangen Long auftragID){
+        LOG.info("is angekomm");
         ReturnSchiffDTO returnSchiffDTO = getFreeShip();
         schiffinterface.auftragAnSchiffUebergeben(returnSchiffDTO.id, true);
 
@@ -82,7 +83,7 @@ public class SchiffRessource {
         eventDTO.auftragsid = auftragID;
 
 
-        uriSendEvent.fireAsync(eventDTO);
+        uriSendEvent.fire(eventDTO);
 
 
     }
