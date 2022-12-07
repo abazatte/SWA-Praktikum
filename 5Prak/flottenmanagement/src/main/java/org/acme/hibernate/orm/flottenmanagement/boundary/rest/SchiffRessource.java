@@ -1,13 +1,14 @@
 package org.acme.hibernate.orm.flottenmanagement.boundary.rest;
 
-import org.acme.hibernate.orm.auftragsmanagement.gateway.repo.AuftragsRepository;
+import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.Eingegangen;
+import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.Storniert;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.PostSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.boundary.acl.ReturnSchiffDTO;
 import org.acme.hibernate.orm.flottenmanagement.control.Schiffinterface;
-import org.acme.hibernate.orm.flottenmanagement.entity.Schiff;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -45,7 +46,7 @@ public class SchiffRessource {
     @Path("/{id}")
     @Transactional
     public ReturnSchiffDTO updateSchiff(@PathParam("id") long id, @QueryParam("hatAuftrag") boolean hatAuftrag) {
-        return schiffinterface.AuftragAnSchiffUebergeben(id, hatAuftrag);
+        return schiffinterface.auftragAnSchiffUebergeben(id, hatAuftrag);
     }
 
     @DELETE
@@ -57,6 +58,17 @@ public class SchiffRessource {
             return Response.status(204).build();
         }
         return Response.status(404).build();
+    }
+
+    public void schiffNimmtAuftragAn(@Observes @Eingegangen Long auftragID){
+        ReturnSchiffDTO returnSchiffDTO = getFreeShip();
+        schiffinterface.auftragAnSchiffUebergeben(returnSchiffDTO.id, true);
+
+    }
+
+    //das ist noch haram, hier muss das schiff gefunden werden
+    public void auftragDesSchiffsStorniert(@Observes @Storniert Long schiffsID){
+        schiffinterface.auftragAnSchiffUebergeben(schiffsID, false);
     }
 
     private ReturnSchiffDTO getFreeShip() {

@@ -1,11 +1,10 @@
 package org.acme.hibernate.orm.auftragsmanagement.boundary.rest;
 
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.PatchAuftragDTO;
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.PostAuftragDTO;
-import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.ReturnAuftragDTO;
+import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.*;
 import org.acme.hibernate.orm.auftragsmanagement.control.AuftragsInterface;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.Collection;
@@ -19,6 +18,17 @@ public class AuftragsRessource {
     @Inject
     AuftragsInterface auftragsInterface;
 
+     @Inject
+     @Eingegangen
+     Event<Long> auftragEingegangen;
+
+    @Inject
+    Event<Long> auftragGeändert; //hat keine funktion bisher
+
+    @Inject
+    @Storniert
+    Event<Long> auftragStorniert;
+
     @GET
     public Collection<ReturnAuftragDTO> getAllAuftraege() {
         return auftragsInterface.getAllAuftraege();
@@ -26,7 +36,10 @@ public class AuftragsRessource {
 
     @POST
     public ReturnAuftragDTO addAuftrag(PostAuftragDTO postAuftragDTO) {
-        return auftragsInterface.addAuftrag(postAuftragDTO);
+        ReturnAuftragDTO returnAuftragDTO = auftragsInterface.addAuftrag(postAuftragDTO);
+        Long auftragID = returnAuftragDTO.id;
+        auftragEingegangen.fireAsync(auftragID);
+        return returnAuftragDTO;
     }
 
     @PATCH
@@ -38,6 +51,7 @@ public class AuftragsRessource {
     @DELETE
     @Path("/{id}")
     public Boolean deleteAuftrag(long id) {
+        auftragStorniert.fireAsync(id); //der link oder id vom schiff muss rein
         return auftragsInterface.deleteAuftrag(id);
     }
 
