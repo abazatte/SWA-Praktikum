@@ -3,6 +3,7 @@ package org.acme.hibernate.orm.auftragsmanagement.gateway.repo;
 import org.acme.hibernate.orm.auftragsmanagement.boundary.acl.*;
 import org.acme.hibernate.orm.auftragsmanagement.entity.Auftrag;
 import org.acme.hibernate.orm.auftragsmanagement.entity.AuftragsCatalog;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,6 +16,8 @@ public class AuftragsRepository implements AuftragsCatalog {
 
     @Inject
     EntityManager em;
+
+    private static final Logger LOG = Logger.getLogger(AuftragsRepository.class);
     @Override
     public Collection<ReturnAuftragDTO> getAllAuftraege() {
         Collection<Auftrag> auftraege = em.createNamedQuery("Auftrag.findAll", Auftrag.class).getResultList();
@@ -33,6 +36,7 @@ public class AuftragsRepository implements AuftragsCatalog {
         auftrag.setBeschreibung(postAuftragDTO.beschreibung);
         java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance(TimeZone.getTimeZone("GMT+1")).getTimeInMillis());
         auftrag.setEingangsDatum(currentDate);
+
         em.persist(auftrag);
         return new ReturnAuftragDTO(auftrag);
     }
@@ -50,6 +54,10 @@ public class AuftragsRepository implements AuftragsCatalog {
 
     @Override
     public ReturnAuftragDTO findAuftragByID(long id) {
-        return null;
+        List<Auftrag> retAuftrag = em.createNamedQuery("Auftrag.findByID").setParameter("id",id).getResultList();
+        if(retAuftrag.size()>1){
+            LOG.info("findAuftragByID kriegt zuviel");
+        }
+        return new ReturnAuftragDTO(retAuftrag.get(0));
     }
 }
