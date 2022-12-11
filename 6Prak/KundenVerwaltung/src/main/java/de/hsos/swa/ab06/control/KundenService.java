@@ -78,7 +78,7 @@ public class KundenService {
     }
 
     public boolean adresseLoeschen(long kundenNr) {
-        kundeMap.get(kundenNr).setAdresse(null);
-        return kundeMap.get(kundenNr) == null;
+        kundeMap.get(kundenNr).setAdresse(new Adresse());
+        return kundeMap.get(kundenNr).getAdresse().getHausnr() == null;
     }
 }
