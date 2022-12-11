@@ -9,7 +9,9 @@ public class Kunde {
     private String nachname;
     private Adresse adresse;
 
-    public Kunde(){}
+    public Kunde(){
+        this.adresse = new Adresse();
+    }
     public Kunde(Long kundenNummer, String vorname, String nachname, Adresse adresse) {
         this.kundenNummer = kundenNummer;
         this.vorname = vorname;

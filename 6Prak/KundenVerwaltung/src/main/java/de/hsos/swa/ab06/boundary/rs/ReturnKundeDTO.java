@@ -8,7 +8,9 @@ public class ReturnKundeDTO {
     public String vorname;
     public String nachname;
     public AdresseDTO adresse;
-    public ReturnKundeDTO(){}
+    public ReturnKundeDTO(){
+        adresse = new AdresseDTO();
+    }
 
     public ReturnKundeDTO(Kunde kunde) {
         this.kundenNummer = kunde.getKundenNummer();
