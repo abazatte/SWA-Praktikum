@@ -8,6 +8,7 @@ public class Adresse {
     private String ort;
     private String strasse;
     private String hausnr;
+    public Adresse(){}
 
     public Adresse(String plz, String ort, String strasse, String hausnr) {
         this.plz = plz;
