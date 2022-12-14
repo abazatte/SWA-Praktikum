@@ -1,8 +1,9 @@
 package de.hsos.swa.ab06.boundary.rs;
 
-import com.oracle.svm.core.annotate.Delete;
 import de.hsos.swa.ab06.control.KundenService;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,6 +13,7 @@ import java.util.Collection;
 @Path("/kundenverwaltung")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class KundenResource {
     @Inject
     KundenService kundenService;
@@ -42,25 +44,25 @@ public class KundenResource {
     }
 
     @GET
-    @Path("/kunden/{id}")
+    @Path("/adresse/{id}")
     public Response adresseAbfragen(long id){
         return Response.ok(kundenService.adresseAbfragen(id)).build();
     }
 
     @POST
-    @Path("/kunden/{id}")
+    @Path("/adresse/{id}")
     public Response adresseAnlegen(long id, AdresseDTO adresseDTO){
         return Response.ok(kundenService.adresseAnlegen(id,adresseDTO)).build();
     }
 
     @PUT
-    @Path("/kunden/{id}")
+    @Path("/adresse/{id}")
     public Response adresseAendern(long id, AdresseDTO adresseDTO){
         return Response.ok(kundenService.adresseAendern(id,adresseDTO)).build();
     }
 
     @DELETE
-    @Path("/kunden/{id}")
+    @Path("/adresse/{id}")
     public Response adresseLoeschen(long id){
         return Response.ok(kundenService.adresseLoeschen(id)).build();
     }

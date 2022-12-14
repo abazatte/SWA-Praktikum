@@ -7,6 +7,7 @@ import de.hsos.swa.ab06.entity.Adresse;
 import de.hsos.swa.ab06.entity.Kunde;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
