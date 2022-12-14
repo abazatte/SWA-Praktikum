@@ -3,17 +3,23 @@ package de.hsos.swa.ab06pers.entity;
 import de.hsos.swa.ab06.entity.Adresse;
 
 import javax.enterprise.inject.Vetoed;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.QueryHint;
+import javax.persistence.*;
+
 @Entity
 @Vetoed
-@NamedQuery(name = "KundePersistent.findAll", query = "SELECT a FROM KundePersistent a ORDER BY a.id", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
+@NamedQuery(name = "KundePersistent.findAll", query = "SELECT a FROM KundePersistent a ORDER BY a.kundenNummer", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
 public class KundePersistent {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long kundenNummer;
+    @Column
     private String vorname;
+    @Column
     private String nachname;
+
+    @OneToOne
+    @JoinColumn(name = "kundenNr")
     private AdressePersistent adresse;
 
     public KundePersistent(){
@@ -50,11 +56,11 @@ public class KundePersistent {
         this.nachname = nachname;
     }
 
-    public Adresse getAdresse() {
+    public AdressePersistent getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(Adresse adresse) {
+    public void setAdresse(AdressePersistent adresse) {
         this.adresse = adresse;
     }
 }

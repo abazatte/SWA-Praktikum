@@ -2,10 +2,13 @@ package de.hsos.swa.ab06pers.entity;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Vetoed
 public class AdressePersistent {
+    @Id
+    private Long kundenNr;
     private String plz;
     private String ort;
     private String strasse;
