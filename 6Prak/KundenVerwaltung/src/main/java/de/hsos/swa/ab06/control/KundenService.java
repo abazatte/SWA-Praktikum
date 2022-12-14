@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@ApplicationScoped
+@RequestScoped
 public class KundenService {
     private Map<Long, Kunde> kundeMap = new ConcurrentHashMap<>();
     AtomicLong idGen = new AtomicLong();
