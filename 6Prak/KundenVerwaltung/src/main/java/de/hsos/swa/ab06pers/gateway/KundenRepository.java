@@ -1,5 +1,6 @@
 package de.hsos.swa.ab06pers.gateway;
 
+import de.hsos.swa.ab06.entity.Adresse;
 import de.hsos.swa.ab06pers.boundary.acl.AdressePersistentDTO;
 import de.hsos.swa.ab06pers.boundary.acl.PostKundePersistentDTO;
 import de.hsos.swa.ab06pers.boundary.acl.ReturnKundePersistentDTO;
@@ -37,6 +38,9 @@ public class KundenRepository implements KundenCatalog {
         kunde.setVorname(postKundePersistentDTO.vorname);
         AdressePersistent adressePersistent = new AdressePersistent();
         adressePersistent.setKundenNr(kunde.getKundenNummer());
+
+        em.persist(adressePersistent);
+
         kunde.setAdresse(adressePersistent);
 
         em.persist(kunde);
@@ -59,12 +63,15 @@ public class KundenRepository implements KundenCatalog {
     @Override
     public AdressePersistentDTO adresseAnlegen(long kundenNr, AdressePersistentDTO adr) {
         KundePersistent kunde = em.find(KundePersistent.class, kundenNr);
-        AdressePersistent adresse = new AdressePersistent();
+        AdressePersistent adresse = kunde.getAdresse();
         adresse.setKundenNr(kundenNr);
         adresse.setHausnr(adr.hausnr);
         adresse.setOrt(adr.ort);
         adresse.setPlz(adr.plz);
         adresse.setStrasse(adr.strasse);
+
+        //em.persist(adresse);
+
         kunde.setAdresse(adresse);
 
         em.flush();
@@ -75,7 +82,9 @@ public class KundenRepository implements KundenCatalog {
     @Override
     public AdressePersistentDTO adresseAendern(long kundenNr, AdressePersistentDTO neueAdr) {
         KundePersistent kunde = em.find(KundePersistent.class, kundenNr);
-        AdressePersistent adresse = new AdressePersistent();
+        /*
+        AdressePersistent adresse = new AdressePersistent();*/
+        AdressePersistent adresse = kunde.getAdresse();
         adresse.setKundenNr(kundenNr);
         adresse.setHausnr(neueAdr.hausnr);
         adresse.setOrt(neueAdr.ort);
