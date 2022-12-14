@@ -1,16 +1,19 @@
 package de.hsos.swa.ab06pers.entity;
 
 import de.hsos.swa.ab06.entity.Adresse;
+import io.smallrye.common.constraint.NotNull;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.*;
 
 @Entity
 @Vetoed
+@Table(name = "KundePersistent")
 @NamedQuery(name = "KundePersistent.findAll", query = "SELECT a FROM KundePersistent a ORDER BY a.kundenNummer", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
+@Cacheable
 public class KundePersistent {
     @Id
-    @Column
+    @Column(name = "kundenNr")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long kundenNummer;
     @Column
@@ -18,8 +21,8 @@ public class KundePersistent {
     @Column
     private String nachname;
 
-    @OneToOne
-    @JoinColumn(name = "kundenNr")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @MapsId
     private AdressePersistent adresse;
 
     public KundePersistent(){
@@ -63,4 +66,5 @@ public class KundePersistent {
     public void setAdresse(AdressePersistent adresse) {
         this.adresse = adresse;
     }
+
 }

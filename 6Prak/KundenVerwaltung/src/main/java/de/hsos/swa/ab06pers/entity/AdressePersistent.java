@@ -1,13 +1,18 @@
 package de.hsos.swa.ab06pers.entity;
 
 import javax.enterprise.inject.Vetoed;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Vetoed
+@Table(name = "adressePersistent")
+@Cacheable
 public class AdressePersistent {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "kundenNr",unique=true, nullable = false)
     private Long kundenNr;
     private String plz;
     private String ort;
@@ -52,5 +57,13 @@ public class AdressePersistent {
 
     public void setHausnr(String hausnr) {
         this.hausnr = hausnr;
+    }
+
+    public Long getKundenNr() {
+        return kundenNr;
+    }
+
+    public void setKundenNr(Long kundenNr) {
+        this.kundenNr = kundenNr;
     }
 }

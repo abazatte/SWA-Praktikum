@@ -4,7 +4,9 @@ import de.hsos.swa.ab06pers.boundary.acl.AdressePersistentDTO;
 import de.hsos.swa.ab06pers.boundary.acl.PostKundePersistentDTO;
 import de.hsos.swa.ab06pers.boundary.acl.ReturnKundePersistentDTO;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
+
 
 public interface KundenCatalog {
     Collection<ReturnKundePersistentDTO> kundenAbfragen();

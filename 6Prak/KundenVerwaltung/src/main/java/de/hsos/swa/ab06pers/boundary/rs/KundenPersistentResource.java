@@ -37,7 +37,7 @@ public class KundenPersistentResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/{kundenNr}")
     public Response kundeLoeschen(long kundenNr) {
         if(kundenCatalog.kundeLoeschen(kundenNr)){
             return Response.ok().build();
@@ -47,24 +47,24 @@ public class KundenPersistentResource {
     }
 
     @GET
-    @Path("/adresse/{id}")
+    @Path("/adresse/{kundenNr}")
     public Response adresseAbfragen(long kundenNr) {
         return Response.ok(kundenCatalog.adresseAbfragen(kundenNr)).build();
     }
 
     @POST
-    @Path("/adresse/{id}")
+    @Path("/adresse/{kundenNr}")
     public Response adresseAnlegen(long kundenNr, AdressePersistentDTO adr) {
         return Response.ok(kundenCatalog.adresseAnlegen(kundenNr,adr)).build();
     }
 
     @PUT
-    @Path("/adresse/{id}")
+    @Path("/adresse/{kundenNr}")
     public Response adresseAendern(long kundenNr, AdressePersistentDTO neueAdr) {
         return Response.ok(kundenCatalog.adresseAendern(kundenNr,neueAdr)).build();
     }
     @DELETE
-    @Path("/adresse/{id}")
+    @Path("/adresse/{kundenNr}")
     public Response adresseLoeschen(long kundenNr) {
         return Response.ok(kundenCatalog.adresseLoeschen(kundenNr)).build();
     }
