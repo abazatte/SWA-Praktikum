@@ -1,5 +1,7 @@
 package de.hsos.swa.ab06pers.control;
 
+import de.hsos.swa.ab06pers.boundary.acl.AdressePersistentDTO;
+import de.hsos.swa.ab06pers.boundary.acl.PostKundePersistentDTO;
 import de.hsos.swa.ab06pers.boundary.acl.ReturnKundePersistentDTO;
 
 import java.util.Collection;
@@ -11,6 +13,6 @@ public interface KundenCatalog {
     boolean kundeLoeschen(long kundenNr);
     AdressePersistentDTO adresseAnlegen(long kundenNr, AdressePersistentDTO adr);
     AdressePersistentDTO adresseAendern(long kundenNr, AdressePersistentDTO neueAdr);
-    adressePersistentDTO adresseAbfragen(long kundenNr);
+    AdressePersistentDTO adresseAbfragen(long kundenNr);
     boolean adresseLoeschen(long kundenNr);
 }
